@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+
+        <TextView
+            android:id="@+id/interface_text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="接口"
+            android:textSize="20sp"
+            android:layout_alignBaseline="@+id/interface_spinner"
+            android:layout_marginLeft="30dp"
+            />
+
+        <Spinner
+            android:id="@+id/interface_spinner"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="18%"
+            app:layout_heightPercent="7%"
+            android:layout_toRightOf="@+id/interface_text1"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/edittext_border"
+            />
+
+
+        <TextView
+            android:id="@+id/param_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="参数"
+            android:textSize="20sp"
+            android:layout_alignBaseline="@+id/interface_text1"
+            android:layout_toRightOf="@+id/interface_spinner"
+            />
+
+        <EditText
+            android:id="@+id/param_editText"
+            android:text="test"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="18%"
+            app:layout_heightPercent="7%"
+            android:layout_toRightOf="@+id/param_textview"
+            android:layout_alignBaseline="@+id/param_textview"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/edittext_border"
+            android:inputType="textNoSuggestions"
+            />
+
+        <TextView
+            android:id="@+id/type_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="部件"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:layout_alignLeft="@+id/interface_text1"/>
+
+         <Spinner
+             android:id="@+id/interfaceType_spinner"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignBaseline="@+id/type_text"
+             android:layout_toRightOf="@+id/type_text"
+
+             />
+
+
+
+        <TextView
+            android:id="@+id/textRepeat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:layout_alignLeft="@+id/interface_spinner"
+            android:layout_below="@+id/interface_spinner"
+            android:layout_marginTop="5dp"
+            android:text="Repeat"/>
+
+        <EditText
+            android:id="@+id/countEditText"
+            android:layout_toRightOf="@+id/textRepeat"
+            android:layout_alignBaseline="@+id/textRepeat"
+            android:layout_marginLeft="20dp"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:numeric="integer"
+            android:gravity="left"
+            android:background="@drawable/edittext_border"
+            />
+
+        <Button
+            android:id="@+id/addButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/param_editText"
+            android:layout_alignBaseline="@+id/countEditText"
+            android:text="Add"/>
+
+        <EditText
+            android:id="@+id/showcmd_editText"
+            android:layout_alignLeft="@+id/interface_spinner"
+            android:layout_below="@+id/textRepeat"
+            android:layout_marginTop="50dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="40%"
+            app:layout_heightPercent="70%"
+            android:background="@drawable/edittext_border"
+            android:gravity="top"
+            android:inputType="textMultiLine|textNoSuggestions"
+            />
+        <TextView
+            android:id="@+id/paramTip_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/showcmd_editText"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/textRepeat"/>
+        <Button
+            android:id="@+id/clearCmdButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/execButton"
+            android:layout_below="@+id/showcmd_editText"
+            android:text="Clr"/>
+        <Button
+            android:id="@+id/execButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/showcmd_editText"
+            android:layout_alignRight="@+id/showcmd_editText"
+            android:text="Exec"/>
+
+        <EditText
+            android:id="@+id/execResult_editText"
+            android:layout_toRightOf="@+id/showcmd_editText"
+            android:layout_alignTop="@+id/interface_spinner"
+            android:layout_marginLeft="30dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="50%"
+            app:layout_heightPercent="90%"
+            android:background="@drawable/edittext_border"
+            />
+        <Button
+            android:id="@+id/clearResultButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/execResult_editText"
+            android:layout_alignRight="@+id/execResult_editText"
+            android:text="Clr"/>
+
+
+    </android.support.percent.PercentRelativeLayout>
+
+</RelativeLayout>
