@@ -2,7 +2,6 @@ package com.example.andrivertest;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -60,10 +59,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static String TAG = "DRIVER_TEST";
 
 
-    // Used to load the 'native-lib' library on application startup.
-//    static {
-//        System.loadLibrary("native-lib");
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +79,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void apiInit() {
+        //打印机接口和传参提示
         printInterfaceMap = new HashMap<String, String>();
+        //打印机接口和默认参数
         printDefMap = new HashMap<String, String>();
 
         //printerAPI
@@ -137,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         /*默认参数设置*/
 
-        printDefMap.put("PInit",  "./input/  ./output/");
+        printDefMap.put("PInit",  "/sdcard /sdcard");
         printDefMap.put( "PSetCutterMode",  "0");
         printDefMap.put( "PGetCutterMode",  "mode");
         printDefMap.put( "PSetFont",  "0 17 0");
@@ -279,8 +276,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 interfaceAdapter.notifyDataSetChanged();
 
-
-
             }
 
             @Override
@@ -298,17 +293,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.addButton:
                 String cmdStr;
-                cmdStr = mInterfaceSpinner.getSelectedItem().toString() +
+                cmdStr = mInterfaceTypeSpinner.getSelectedItem().toString() +
+                        " "+mInterfaceSpinner.getSelectedItem().toString() +
                         " " + mCmdRepeatCountView.getText() +
                         " " + mParamEditText.getText();
                 showCmdStr = mShowcmd_editText.getText().toString();
                 showCmdStr = showCmdStr + cmdStr + "\n";
-                Log.i(TAG, "CmdStr = " + showCmdStr);
                 mShowcmd_editText.setText(showCmdStr);
                 break;
+
             case R.id.clearCmdButton:
                 mShowcmd_editText.setText("");
                 break;
+
             case R.id.execButton:
                 showCmdStr = mShowcmd_editText.getText().toString();
                 String repeat = mCmdRepeatCountView.getText().toString();

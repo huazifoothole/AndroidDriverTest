@@ -16,6 +16,14 @@ JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PrintI
   (JNIEnv *, jobject);
 
 /*
+ * Class:     com_example_andrivertest_PGetLastErrorCode
+ * Method:    PGetLastErrorCode
+ * Signature: ()Ljava/lang/String;
+ */
+JNIEXPORT jint JNICALL Java_com_example_andrivertest_PrinterInterface_PGetLastErrorCode
+        (JNIEnv *, jobject);
+
+/*
  * Class:     com_example_andrivertest_PrinterInterface
  * Method:    SetCutMode
  * Signature: (I)Ljava/lang/String;

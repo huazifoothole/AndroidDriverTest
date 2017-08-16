@@ -27,9 +27,9 @@ public class PrinterScript {
 
         if(0 == cmd.compareTo("PInit")){
             Log.i(MainActivity.TAG,"call PInit argNum="+argNum);
-//            if(2 == argNum){
+            if(2 == argNum){
                 boolean flag = mPrinterAPI.PrintInit();
-//            }
+            }
         }
 
         if(0 == cmd.compareTo("PPrintString")){
@@ -38,6 +38,9 @@ public class PrinterScript {
                 boolean flag = mPrinterAPI.PrintString("printerString test");
             }
         }
+
+        //调用GetLastErrorCode和GetLastErrorStr确保接口执行正确
+
 
         return  ret;
     }

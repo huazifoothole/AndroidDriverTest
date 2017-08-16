@@ -17,6 +17,9 @@ public class PrinterInterface {
 
     public static native boolean PrintInit();
 
+    public static native int PGetLastErrorCode();
+
+
     public  static native  String GetLastErrStr();
 
     public  static  native  int GetLastErrCode();
