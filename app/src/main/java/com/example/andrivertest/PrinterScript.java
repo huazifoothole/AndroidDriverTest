@@ -11,11 +11,14 @@ import java.util.List;
 public class PrinterScript {
 
     private PrinterInterface mPrinterAPI = new PrinterInterface();
+
+    /*
+    * 打印机命令处理 , 调用成功返回0，失败返回-1，输出参数存outlist*/
     public int handleCommands(String cmd, List<String> argList,List<String> outlist){
         int ret = 0;
 
         String tmp = "cmdName =" + cmd ;
-        outlist.add(tmp);//存儲被调用的接口名
+        outlist.add(tmp);//首先存儲被调用的接口名
         String succStr = "ExecResult=success";
         String failStr = "ExecResult=failed";
         String argError = "InterfaceParamNumberError";
@@ -28,7 +31,11 @@ public class PrinterScript {
         if(0 == cmd.compareTo("PInit")){
             Log.i(MainActivity.TAG,"call PInit argNum="+argNum);
             if(2 == argNum){
-                boolean flag = mPrinterAPI.PrintInit();
+                String input = argList.get(0);
+                String output = argList.get(1);
+                Log.i(MainActivity.TAG, "inpt = " + input + " output=" + output);
+                int flag = mPrinterAPI.PInit(input, output);
+
             }
         }
 

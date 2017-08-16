@@ -148,6 +148,13 @@ JNIEXPORT jint JNICALL Java_com_example_andrivertest_PrinterInterface_GetLastErr
         (JNIEnv *, jobject);
 
 
+JNIEXPORT jint JNICALL Java_com_example_andrivertest_PrinterInterface_PInit
+        (JNIEnv *, jobject, jstring ,jstring);
+
+
+
+
+
 #ifdef __cplusplus
 }
 #endif

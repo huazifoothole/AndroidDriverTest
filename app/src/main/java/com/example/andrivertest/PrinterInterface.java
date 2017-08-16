@@ -15,7 +15,11 @@ public class PrinterInterface {
         System.loadLibrary("native-printer");
     }
 
+
+    public static native int PInit(String input, String output);
+
     public static native boolean PrintInit();
+
 
     public static native int PGetLastErrorCode();
 

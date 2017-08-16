@@ -50,11 +50,34 @@ bool isInit = false;
 char  mbarCode[256] = {0x00};
 
 
+JNIEXPORT jint JNICALL Java_com_example_andrivertest_PrinterInterface_PInit
+        (JNIEnv *env, jobject, jstring j_input,jstring j_output) {
+
+    int returnValueInt = 1;
+    const char *input = NULL , *output = NULL;
+    if(j_input == NULL || j_output == NULL){
+         return 1;
+    }
+    input = env->GetStringUTFChars(j_input, NULL);
+    output = env->GetStringUTFChars(j_output, NULL);
+
+    env->ReleaseStringUTFChars(j_input, input);
+    env->ReleaseStringUTFChars(j_output, output);
+
+    returnValueInt = byPInit(input, output);
+    if (returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B) {
+        //printf("PrinterInit failed, return code: %d\n", returnValueInt);
+        LOGI("Init return %d", returnValueInt);
+        return returnValueInt;
+    }
+
+    return 1;
+}
+
+
 
 JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PrintInit
         (JNIEnv * env, jobject) {
-    LOGI("PrinterInit input");
-
 
     returnValueInt = byPInit("/sdcard", "/sdcard");
     if (returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B) {

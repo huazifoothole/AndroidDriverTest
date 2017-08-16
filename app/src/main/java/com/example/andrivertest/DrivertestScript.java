@@ -89,9 +89,9 @@ public class DrivertestScript {
         String mCmd,devType;//mCmd接口函数，devType外设类型
         int repeat;//一行接口重复次数
 
-        repeat = Integer.parseInt(cmdList.get(1));
         devType = cmdList.get(0);
         mCmd = cmdList.get(1);
+        repeat = Integer.parseInt(cmdList.get(2));
 
         if(cmdList.size() == 3){
             argList.clear();
@@ -101,7 +101,7 @@ public class DrivertestScript {
                 argList.add(cmdList.get(i));//获取参数
             }
         }
-        Log.i(MainActivity.TAG, "cmdList size =" + cmdList.size() +"\nargLst size ="+argList.size());
+        Log.i(MainActivity.TAG, "cmdList size =" + cmdList.size() +"\nargLst size ="+argList.size()+" cmd="+mCmd);
 
         if(mPrinterSript_ == null){
             mPrinterSript_ = new PrinterScript();
