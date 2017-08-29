@@ -13,7 +13,7 @@ android {
         externalNativeBuild {
             cmake {
                 cppFlags "-std=c++11"
-                targets "native-printer"
+                targets "native-printer","native-hscanner"
             }
         }
 
@@ -35,7 +35,7 @@ android {
 
     sourceSets {
         main {
-            jni.srcDirs = ['src/main/jni', 'src/main/jni/']
+            jni.srcDirs = ['src/main/cpp']
             jniLibs.srcDirs = ['src/main/jniLibs/']
         }
     }

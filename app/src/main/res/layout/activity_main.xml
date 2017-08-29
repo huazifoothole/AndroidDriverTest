@@ -160,6 +160,8 @@
             app:layout_widthPercent="50%"
             app:layout_heightPercent="90%"
             android:background="@drawable/edittext_border"
+            android:gravity="top"
+            android:inputType="textNoSuggestions|textMultiLine"
             />
         <Button
             android:id="@+id/clearResultButton"

@@ -2,6 +2,7 @@ package com.example.andrivertest;
 
 import android.util.Log;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,15 +17,15 @@ public class DrivertestScript {
     PrinterScript mPrinterSript_ = new PrinterScript();
     HscannerSript mHscannerScript_ = new HscannerSript();
 
-    public void scriptParser(String cmd){
+    public void scriptParser(String cmd,List<String> outList){
         List<String> cmdList = new ArrayList<String>();
         String[] cmdArray = cmd.trim().split("\n");
         cmdList = Arrays.asList(cmdArray);
-        cmdParse(cmdList);
+        cmdParse(cmdList,outList);
 
     }
 
-    public int  cmdParse(List<String> List){
+    public int  cmdParse(List<String> List,List<String> outList){
         for(int i =0;i<List.size();i++){ //一行命令
             String cmdStr = List.get(i);
             String tmpStrig = "";
@@ -71,21 +72,20 @@ public class DrivertestScript {
            }
             Log.i(MainActivity.TAG, "cmdList size=" + cmdList.size());
 
-            if(cmdList.size() < 2){
+            if(cmdList.size() < 3){
                 Log.i("script", "command error...,return");
                 return -1;
             }else{
-                handleCommands(cmdList);
+                handleCommands(cmdList,outList);
             }
         }
         return 0;
     }
 
     //执行命令
-    public int handleCommands(List<String> cmdList){
+    public int handleCommands(List<String> cmdList,List<String> outList){
         int ret = 0;
         List<String> argList = new ArrayList<String>();
-        List<String> olist = new ArrayList<String>();
         String mCmd,devType;//mCmd接口函数，devType外设类型
         int repeat;//一行接口重复次数
 
@@ -110,16 +110,32 @@ public class DrivertestScript {
         if(0 == devType.compareTo("Printer")){
             if(repeat > 0){
                 for(int i=0 ;i< repeat;i++){
-                    ret = mPrinterSript_.handleCommands(mCmd, argList, olist);
+                    //try catch 避免getbytes("gbk")抛出异常
+                    try {
+                        ret = mPrinterSript_.handleCommands(mCmd, argList, outList);
+                    }catch (UnsupportedEncodingException e){
+                        e.printStackTrace();
+                    }
+
+                    outList.add("\n");
                 }
             }
         }else if(0 == devType.compareTo("Hscanner")){
             if(repeat > 0){
                 for (int i=0;i<repeat;i++){
-                   ret = mHscannerScript_.handleCommands(mCmd, argList, olist);
+                    try {
+                        ret = mHscannerScript_.handleCommands(mCmd, argList, outList);
+                    }catch (UnsupportedEncodingException e){
+                        e.printStackTrace();
+                    }
+
+                    outList.add("\n");
+
                 }
             }
         }
+
+
 
 
         return ret;

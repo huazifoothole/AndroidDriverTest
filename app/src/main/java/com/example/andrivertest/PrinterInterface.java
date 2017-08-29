@@ -1,5 +1,7 @@
 package com.example.andrivertest;
 
+import java.util.List;
+
 /**
  * Created by chandler on 2017/5/11.
  */
@@ -18,17 +20,77 @@ public class PrinterInterface {
 
     public static native int PInit(String input, String output);
 
-    public static native boolean PrintInit();
+    public native boolean PSetCutterMode(int mode);
+
+    public  native boolean PGetCutterMode(Integer mode);
+
+    public native boolean PSetFont(int index, int size,int aligment);
+
+    public native boolean PSetFontEmpha(int n);
+
+    public native boolean PSetLineSpace(int size);
+
+    public native boolean PSetCharSpace(int size);
+
+    public native boolean PSetLeftMargin(int size);
+
+    public native boolean PSetAreaWidth(int size);
+
+    public native int PQueryCapability();
+
+    public native boolean PPrinterIsReady();
+
+    public native boolean PGetDpi(Integer widthDpi, Integer heigthDpi);
+
+    public native boolean PGetHWInformation(Byte hwinfo, int length);
+
+    public native String PGetSWVersion();
+
+    public native void PFeedLine(int count);
+
+    public native boolean PrintInit();
+
+    public  native int PGetLastErrorCode();
+
+    public  native  void PGetLastErrorStr(char[] err,int length);
+
+    public  native int PrintPDF417(int mode_width, int mode_height, int data_rows, int data_columns, int err_level, String pdfStr, int length, int mode);
+
+    public native boolean PSetUserChar(int c1,int c2,int m, char[] data,int length);
+
+    public native boolean PUnsetUserChar(int c1,int c2);
+
+    public native boolean PPrintUserChar(int c1,int c2);
+
+    public native int PPrintDiskImage(int xpos, int ypos, String path);
+
+    public native boolean PPrintBlackMark(char[] barcode, int length);
+
+    public native boolean PGetTopMargin(Integer margin);
+
+    public native int PPrintIsComplete(int timeout);
+
+    public native long PGetPrintLength();
+
+    public native boolean PLoadLogoImage(int imgCount, List<byte[]> imgList);
+
+    public native boolean PLoadDiskLogo(int imgCount, String[] imgFileList);
+
+    public native boolean PPrintLogo(int x, int y,int index);
+
+    public native boolean PSetAngle(int angle);
+
+    public native boolean PExecESCPOS(char[] s, int length);
+
+    public native boolean PSetPageMode(int width, int height, int leftTop_x, int leftTop_y);
+
+    public native boolean  PSetLineMode();
+
+    public native boolean  PPrintPage();
+
+    public native int PPrintString(byte[] str);
 
 
-    public static native int PGetLastErrorCode();
-
-
-    public  static native  String GetLastErrStr();
-
-    public  static  native  int GetLastErrCode();
-
-    public native boolean SetCutMode(int mode);
 
     //change ini file , set allcut or halfcut
     public native void SetAllcutOrHalfcut(int mode);
@@ -53,11 +115,10 @@ public class PrinterInterface {
 
     public native String PrintBarCode(int cutmode ,int codeType);
 
-    public native  boolean PrintString(String str);
+
 
     public native boolean CutPaper();
 
-    public native boolean PSetPageMode(int width, int height, int leftTop_x, int leftTop_y);
 
     public static native String GetPrintHwInfo();
 

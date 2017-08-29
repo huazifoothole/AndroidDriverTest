@@ -30,19 +30,19 @@ extern "C"
 #define	PRINTER_POWER_ERROR			(PRINTER_NO_ERROR - 0x04)		//????????
 #define	PRINTER_COVER_ERROR			(PRINTER_NO_ERROR - 0x05)		//????
 #define	PRINTER_PAPER_JAM			(PRINTER_NO_ERROR - 0x06)		//???
-#define	PRINTER_NOT_COMPLETE			(PRINTER_NO_ERROR - 0x07)		//??????��???(????????)
+#define	PRINTER_NOT_COMPLETE			(PRINTER_NO_ERROR - 0x07)		//???????????(????????)
 #define	PRINTER_OTHER_ERROR			(PRINTER_NO_ERROR - 0x08)		//????????(??????)
 #define	PRINTER_TABPAR_NONE			(PRINTER_NO_ERROR - 0x09)		//???????
-#define	PRINTER_HAVE_NOT_INIT		(PRINTER_NO_ERROR - 0x0A)		//��?????
-//#define	PRINTER_INVALID_ARGUMNET		(PRINTER_NO_ERROR - 0x0B)		//??????��
-#define 	PRINTER_MODE_SWITCH_ERROR		(PRINTER_NO_ERROR - 0x0C)		//???��?????
+#define	PRINTER_HAVE_NOT_INIT		(PRINTER_NO_ERROR - 0x0A)		//???????
+//#define	PRINTER_INVALID_ARGUMNET		(PRINTER_NO_ERROR - 0x0B)		//????????
+#define 	PRINTER_MODE_SWITCH_ERROR		(PRINTER_NO_ERROR - 0x0C)		//??????????
 #define 	PRINTER_HEAD_ERROR			(PRINTER_NO_ERROR - 0x0D)		//???????
-#define 	PRINTER_CUT_ERROR			(PRINTER_NO_ERROR - 0x0E)		//?��?????
+#define 	PRINTER_CUT_ERROR			(PRINTER_NO_ERROR - 0x0E)		//????????
 #define	PRINTER_NOT_FULL			(PRINTER_NO_ERROR - 0x10)		//?????????
 #define	PRINTER_FORBID			(PRINTER_NO_ERROR - 0x11)		//????????(???????????)
 #define	PRINTER_NOSUPPORT			(PRINTER_NO_ERROR - 0x12)		//?????
-#define	PRINTER_MIN_CODE			(PRINTER_NO_ERROR - 0x13)		//??��?????
-#define	PRINTER_INVALID_ERROR_CODE		(PRINTER_NO_ERROR - 0x14)		//??��??????
+#define	PRINTER_MIN_CODE			(PRINTER_NO_ERROR - 0x13)		//?????????
+#define	PRINTER_INVALID_ERROR_CODE		(PRINTER_NO_ERROR - 0x14)		//??????????
 
 
 int	returnValueInt = PRINTER_NO_ERROR;
@@ -61,21 +61,373 @@ JNIEXPORT jint JNICALL Java_com_example_andrivertest_PrinterInterface_PInit
     input = env->GetStringUTFChars(j_input, NULL);
     output = env->GetStringUTFChars(j_output, NULL);
 
+
+    returnValueInt = byPInit(input, output);
+    LOGI("native input =%s, output=%s", input,output);
+    if (returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B) {
+        LOGI("Init return %d", returnValueInt);
+        return returnValueInt;
+    }else {
+        LOGI("printer init ok");
+    }
+
     env->ReleaseStringUTFChars(j_input, input);
     env->ReleaseStringUTFChars(j_output, output);
 
-    returnValueInt = byPInit(input, output);
-    if (returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B) {
-        //printf("PrinterInit failed, return code: %d\n", returnValueInt);
-        LOGI("Init return %d", returnValueInt);
-        return returnValueInt;
+    return returnValueInt;
+}
+
+JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PSetCutterMode
+        (JNIEnv * env, jobject, jint mode) {
+
+    bool ret = PSetCutterMode(mode);
+
+    return  ret;
+}
+
+JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PGetCutterMode
+        (JNIEnv *env, jobject, jobject mode) {
+
+    int mode_;
+    bool flag = byPGetCutterMode(&mode_);
+    if(!flag)
+        return  false;
+
+    jclass class_mode = env->FindClass("java/lang/Integer");
+    if(class_mode == NULL){
+        return false;
+    }
+    jfieldID id = env->GetFieldID(class_mode, "value", "I");
+    if(id == NULL){
+        return false;
+    }
+    env->SetIntField(mode, id, mode_);
+
+
+    return flag;
+}
+
+JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PSetFont
+        (JNIEnv *, jobject,jint index,jint size,jint aligment) {
+
+    bool flag = byPSetFont(index, size, aligment);
+    return  flag;
+
+}
+
+JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PSetFontEmpha
+        (JNIEnv *, jobject, jint n){
+    bool flag;
+    flag = byPSetFontEmpha(n);
+    return flag;
+}
+
+JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PSetLineSpace
+        (JNIEnv *, jobject, jint size){
+    bool flag = PSetLineSpace(size);
+    return flag;
+}
+
+JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PSetCharSpace
+        (JNIEnv *, jobject, jint size) {
+    bool flag = PSetCharSpace(size);
+    return flag;
+}
+
+JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PSetLeftMargin
+        (JNIEnv *, jobject, jint size){
+    bool flag = PSetLeftMargin(size);
+    return flag;
+}
+
+JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PSetAreaWidth
+        (JNIEnv *, jobject, jint size){
+    bool flag = PSetAreaWidth(size);
+    return flag;
+}
+
+JNIEXPORT jint JNICALL Java_com_example_andrivertest_PrinterInterface_PQueryCapability
+        (JNIEnv *, jobject){
+    int value = PQueryCapability();
+    return value;
+}
+
+JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PPrinterIsReady
+        (JNIEnv *, jobject){
+    bool flag = PPrinterIsReady();
+    return flag;
+}
+
+JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PGetDpi
+        (JNIEnv *env, jobject obj, jobject widthDpi, jobject heightDpi){
+
+    bool flag = false;
+    jclass class_dpi = env->FindClass("java/lang/Integer");
+    if(class_dpi == NULL){
+        return false;
     }
 
+    jfieldID id = env->GetFieldID(class_dpi, "value", "I");
+    if(id == NULL){
+        return  false;
+    }
+
+    int w =0,h=0;
+    flag = PGetDpi(&w,&h);
+
+    env->SetIntField(widthDpi, id, w);
+    env->SetIntField(heightDpi, id, h);
+
+    return flag;
+}
+
+JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PGetHWInformation
+        (JNIEnv *env, jobject, jobject hwinfo_obj, jint length){
+
+    char info[1024] = {0x00};
+    bool flag = PGetHWInformation(info, length);
+
+
+    jclass class_dpi = env->FindClass("java/lang/Byte");
+    if(class_dpi == NULL){
+        return false;
+    }
+
+    jfieldID id = env->GetFieldID(class_dpi, "value", "B");
+    if(id == NULL){
+        return  false;
+    }
+
+
+
+    return flag;
+
+}
+
+JNIEXPORT jstring JNICALL Java_com_example_andrivertest_PrinterInterface_PGetSWVersion
+        (JNIEnv *env, jobject) {
+    char info[1024] = {0x00};
+
+    bool flag = PGetSWVersion(info,1000);
+    if(!flag){
+        return env->NewStringUTF("false");
+    }
+    return env->NewStringUTF(info);
+}
+
+
+JNIEXPORT void JNICALL Java_com_example_andrivertest_PrinterInterface_PFeedLine
+        (JNIEnv *, jobject, jint n){
+
+    PFeedLine(n);
+
+}
+
+JNIEXPORT int JNICALL Java_com_example_andrivertest_PrinterInterface_PrintPDF417
+        (JNIEnv *env, jobject, jint mode_width, jint mode_height, jint data_rows, jint data_columns, jint err_level, jstring pdfStr, jint length, jint mode) {
+
+    jboolean iscopy;
+
+    int ret = PrintPDF417(mode_width,mode_height,data_rows,data_columns,err_level,env->GetStringUTFChars(pdfStr,&iscopy),length,mode);
+
+    return ret;
+}
+
+JNIEXPORT bool JNICALL Java_com_example_andrivertest_PrinterInterface_PSetUserChar
+        (JNIEnv *env, jobject, jint c1, jint c2,jint m , jcharArray data, jint length) {
+
+
+
+
+    unsigned char* chars= (unsigned  char*)env->GetCharArrayElements(data, 0);
+
+    PSetUserChar(c1,c2,m,chars,length);
+    return true;
+}
+
+JNIEXPORT bool JNICALL Java_com_example_andrivertest_PrinterInterface_PUnsetUserChar
+        (JNIEnv *, jobject,jint c1,  jint c2) {
+    bool flag = PUnsetUserChar(c1, c2);
+    return flag;
+}
+
+JNIEXPORT bool JNICALL Java_com_example_andrivertest_PrinterInterface_PPrintUserChar
+        (JNIEnv *, jobject, jint c1,  jint c2){
+    bool flag = PPrintUserChar(c1, c2);
+    return flag;
+}
+
+JNIEXPORT int JNICALL Java_com_example_andrivertest_PrinterInterface_PPrintDiskImage
+        (JNIEnv *env, jobject, jint xpos,  jint ypos, jstring pathStr) {
+
+
+
+    const char *path = env->GetStringUTFChars(pathStr, 0);
+
+    int ret = PPrintDiskImage(xpos, ypos, path);
+
+    env->ReleaseStringUTFChars(pathStr, path);
     return 1;
+
+}
+JNIEXPORT bool JNICALL Java_com_example_andrivertest_PrinterInterface_PPrintBlackMark
+        (JNIEnv *env, jobject, jcharArray jcharArray1,  jint length) {
+
+    char barcode[256] = {0x00};
+    jchar*  jchar1 =env->GetCharArrayElements(jcharArray1, 0);
+    for(int i=0;i<length;i++){
+        barcode[i] = jchar1[i];
+    }
+    bool flag = PPrintBlackMark(barcode, length);
+    return flag;
+}
+JNIEXPORT bool JNICALL Java_com_example_andrivertest_PrinterInterface_PGetTopMargin
+        (JNIEnv *env, jobject, jobject margin){
+
+    bool flag = false;
+    jclass class_dpi = env->FindClass("java/lang/Integer");
+    if(class_dpi == NULL){
+        return false;
+    }
+
+    jfieldID id = env->GetFieldID(class_dpi, "value", "I");
+    if(id == NULL){
+        return  false;
+    }
+
+    int m =0;
+    flag = PGetTopMargin(&m);
+
+    env->SetIntField(margin, id, m);
+    return flag;
+}
+
+JNIEXPORT jint JNICALL Java_com_example_andrivertest_PrinterInterface_PPrintIsComplete
+        (JNIEnv *, jobject, jint timeout){
+
+    int ret = PPrintIsComplete(timeout);
+    return ret;
+}
+
+JNIEXPORT jlong JNICALL Java_com_example_andrivertest_PrinterInterface_PGetPrintLength
+        (JNIEnv *, jobject){
+
+    long length = PGetPrintLength();
+    return length;
+}
+
+JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PLoadLogoImage
+        (JNIEnv *env, jobject, jint imgCount, jobjectArray imgArray){
+
+    bool flag = false;
+    char filePath[100];
+    char *dataList[imgCount];
+    for(int i=0; i<imgCount; i++){
+        strcpy(filePath,"/sdcard/TestImage/logoImage/logoImage");
+        char tmp[5];
+        sprintf(tmp, "%d", i);
+        strcat(filePath, tmp);
+        strcat(filePath,".bmp");
+        LOGI("filePath=%s",filePath);
+        FILE* file = fopen(filePath,"r");
+        if(file != NULL){
+            fseek( file, SEEK_SET, SEEK_END );
+            int size=ftell(file);
+            char *tmpData = new char(size+1);
+            fread(tmpData, sizeof(char), size+1, file);
+            fclose(file);
+            dataList[0] = tmpData;
+        }
+    }
+
+    PLoadLogoImage(imgCount, dataList);
+
+    return flag;
+}
+
+JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PLoadDiskLogo
+        (JNIEnv *env, jobject, jint count,jobjectArray logoArray){
+
+    bool flag = false;
+    jstring jstr;
+    jsize len = env->GetArrayLength(logoArray);
+    char *imageList [len] ;
+    for(int i=0; i< len; i++){
+        jstr = (jstring) env->GetObjectArrayElement(logoArray,i);
+        imageList[i] = (char*) env->GetStringUTFChars(jstr, 0);
+        LOGI("imageList=%s", imageList[i]);
+    }
+    PLoadDiskLogo(len,imageList);
+    return flag;
+}
+
+JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PPrintLogo
+        (JNIEnv *, jobject, jint x, jint y,jint index) {
+
+    bool flag = PPrintLogo(x, y, index);
+    return flag;
+}
+
+JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PSetAngle
+        (JNIEnv *, jobject, jint angle){
+
+    bool flag = PSetAngle(angle);
+    return flag;
+}
+
+JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PExecESCPOS
+        (JNIEnv *env, jobject, jcharArray cmd, jint length) {
+
+
+    jchar* command =  env->GetCharArrayElements(cmd, 0);
+    bool flag = false;
+    flag = PExec_ESC_POS((char *const)command, length);
+    return flag;
+}
+
+JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PSetPageMode
+        (JNIEnv *, jobject, jint width, jint height, jint leftTop_x, jint leftTop_y) {
+
+    bool flag = PSetPageMode(width, height, leftTop_x, leftTop_y);
+    return flag;
+}
+
+JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PSetLineMode
+        (JNIEnv *, jobject){
+
+    bool flag = PSetLineMode();
+    return flag;
+}
+
+JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PPrintPage
+        (JNIEnv *, jobject) {
+
+    bool flag = PPrintPage();
+    return flag;
+}
+
+JNIEXPORT void JNICALL Java_com_example_andrivertest_PrinterInterface_PGetLastErrorStr
+        (JNIEnv *env, jobject,jcharArray jcharArray1,jint length) {
+
+
+        jchar a[256]={0x00};
+
+        char errStr[256] = {0x00};
+        byPGetLastErrorStr(errStr, 256);
+        LOGI("errstr length =%d",sizeof(errStr));
+        for(int i=0;i<256;i++) {
+            a[i] = errStr[i];
+        }
+        env->SetCharArrayRegion(jcharArray1, 0, sizeof(errStr), a);
+//        char	errStr[256] = {0x00};
+//        byPGetLastErrorStr(errStr, 200);
+//        return env->NewStringUTF(errStr);
+
 }
 
 
 
+//**************//
 JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PrintInit
         (JNIEnv * env, jobject) {
 
@@ -93,22 +445,8 @@ JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PrintI
 }
 
 
-JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_SetCutMode
-        (JNIEnv * env, jobject, jint mode) {
 
-    bool ret = PSetCutterMode(mode);
-
-    char err[256] = {0x00};
-    byPGetLastErrorStr(err,200);
-    LOGI("setcutmode(1) return %d err = %s",ret,err);
-
-
-    return  ret;
-}
-
-
-
-bool PrintPDF417() {
+bool Print_PDF417() {
     //*****************************************************************************************************************
     //??????????????
     int		returnValueInt = PRINTER_NO_ERROR;
@@ -142,7 +480,7 @@ bool PrintPDF417() {
     }
 
     //*****************************************************************************************************************
-    //?��??��?????????
+    //????????????????
 //    byPPrinterIsReady();
 
     //*****************************************************************************************************************
@@ -155,7 +493,7 @@ bool PrintPDF417() {
         goto ExitLine;
     }
 
-    returnValueBool = byPSetLineSpace(10);//?????��?
+    returnValueBool = byPSetLineSpace(10);//????????
     if(!returnValueBool)
     {
         printf("PrinterSetLineSpace(36) failed!\n");
@@ -170,14 +508,14 @@ bool PrintPDF417() {
         goto ExitLine;
     }
 
-    returnValueInt = byPPrintString("��ʾƱ<ȫ����������3>\n\n");//????????
+    returnValueInt = byPPrintString("????<???????????3>\n\n");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('��ʾƱ<ȫ����������3>') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('????<???????????3>') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
-    returnValueBool = byPSetLineSpace(14);//?????��??
+    returnValueBool = byPSetLineSpace(14);//?????????
     if(!returnValueBool)
     {
         printf("PrinterSetLineSpace(24) failed!\n");
@@ -199,23 +537,23 @@ bool PrintPDF417() {
         goto ExitLine;
     }
 
-    returnValueInt = byPPrintString("���۵�:06034      06073�� 2006/03/22����");//????????
+    returnValueInt = byPPrintString("?????:06034      06073?? 2006/03/22????");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('���۵�:06034') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('?????:06034') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
     byPPrintString("\n");
 
-    returnValueInt = byPPrintString("��:1  �ϼ�:2Ԫ       2006/03/22 12:26:49\n");//????????
+    returnValueInt = byPPrintString("??:1  ???:2?       2006/03/22 12:26:49\n");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('��:1  �ϼ�:2Ԫ') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('??:1  ???:2?') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
     //begin = systick();
-//    returnValueInt = byPPrintIsComplete(5);//?��?????????
+//    returnValueInt = byPPrintIsComplete(5);//????????????
 //    if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
 //    {
 //        printf("PrinterPrintIsComplete('%s') failed, return code: %d\n", barCode, returnValueInt);
@@ -232,51 +570,51 @@ bool PrintPDF417() {
         goto ExitLine;
     }
 
-    returnValueInt = byPPrintString("�� ʽ Ʊ");//????????
+    returnValueInt = byPPrintString("?? ? ?");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('�� ʽ Ʊ') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('?? ? ?') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
     byPFeedLine(1);//???
-    returnValueInt = byPPrintString("�� 3 3 2");//????????
+    returnValueInt = byPPrintString("?? 3 3 2");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('�� 3 3 2') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('?? 3 3 2') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
     byPFeedLine(1);//???
 
-    returnValueInt = byPPrintString("�� 5 8 1");//????????
+    returnValueInt = byPPrintString("?? 5 8 1");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('�� 5 8 1') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('?? 5 8 1') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
     byPFeedLine(1);//???
-    returnValueInt = byPPrintString("�� 3 3 2");//????????
+    returnValueInt = byPPrintString("?? 3 3 2");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('�� 3 3 2') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('?? 3 3 2') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
     byPFeedLine(1);//???
-    returnValueInt = byPPrintString("�� 5 8 3");//????????
+    returnValueInt = byPPrintString("?? 5 8 3");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('�� 5 8 3') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('?? 5 8 3') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
     byPFeedLine(1);//???
-    returnValueInt = byPPrintString("�� 3 3 2");//????????
+    returnValueInt = byPPrintString("?? 3 3 2");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('�� 3 3 2') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('?? 3 3 2') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
@@ -289,25 +627,25 @@ bool PrintPDF417() {
         goto ExitLine;
     }
 
-    returnValueInt = byPPrintString("�绰��ѯ:123456���Ų�ѯ:����1234����4321");//????????
+    returnValueInt = byPPrintString("??????:123456??????:????1234????4321");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('�绰��ѯ') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('??????') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
     byPFeedLine(1);//???
-    returnValueInt = byPPrintString("����������ͬ�����ţ�������");//????????
+    returnValueInt = byPPrintString("????????????????????????");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('��������') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('????????') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
     returnValueInt = byPPrintString("\n\n\n");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('��������') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('????????') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
@@ -394,7 +732,7 @@ int PrintBarcodeTicket(int codeType)
         goto ExitLine;
     }
 
-    returnValueBool = byPSetLineSpace(36);//?????��?
+    returnValueBool = byPSetLineSpace(36);//????????
     if(!returnValueBool)
     {
         printf("PrinterSetLineSpace(36) failed!\n");
@@ -408,15 +746,15 @@ int PrintBarcodeTicket(int codeType)
         goto ExitLine;
     }
 
-    returnValueInt = byPPrintString("���<ȫ����������3>");//????????
+    returnValueInt = byPPrintString("???<???????????3>");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('���<ȫ����������3>') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('???<???????????3>') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
     byPFeedLine(3);//???
-    returnValueBool = byPSetLineSpace(24);//?????��??
+    returnValueBool = byPSetLineSpace(24);//?????????
     if(!returnValueBool)
     {
         printf("PrinterSetLineSpace(24) failed!\n");
@@ -439,18 +777,18 @@ int PrintBarcodeTicket(int codeType)
     }
 
     byPFeedLine(1);//???
-    returnValueInt = byPPrintString("���۵�:06034      06073�� 2006/03/22����");//????????
+    returnValueInt = byPPrintString("?????:06034      06073?? 2006/03/22????");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('���۵�:06034') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('?????:06034') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
     byPFeedLine(1);//???
-    returnValueInt = byPPrintString("��:1  �ϼ�:2Ԫ       2006/03/22 12:26:49");//????????
+    returnValueInt = byPPrintString("??:1  ???:2?       2006/03/22 12:26:49");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('��:1  �ϼ�:2Ԫ') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('??:1  ???:2?') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
@@ -462,50 +800,50 @@ int PrintBarcodeTicket(int codeType)
         goto ExitLine;
     }
 
-    returnValueInt = byPPrintString("ֱ ѡ Ʊ");//????????
+    returnValueInt = byPPrintString("? ? ?");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('ֱ ѡ Ʊ') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('? ? ?') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
     byPFeedLine(1);//???
-    returnValueInt = byPPrintString("�� 3 2 2");//????????
+    returnValueInt = byPPrintString("?? 3 2 2");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('�� 3 2 2') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('?? 3 2 2') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
     byPFeedLine(1);//???
-    returnValueInt = byPPrintString("�� . . .");//????????
+    returnValueInt = byPPrintString("?? . . .");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('�� . . .') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('?? . . .') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
     byPFeedLine(1);//???
-    returnValueInt = byPPrintString("�� . . .");//????????
+    returnValueInt = byPPrintString("?? . . .");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('�� . . .') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('?? . . .') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
     byPFeedLine(1);//???
-    returnValueInt = byPPrintString("�� . . .");//????????
+    returnValueInt = byPPrintString("?? . . .");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('�� . . .') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('?? . . .') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
     byPFeedLine(1);//???
-    returnValueInt = byPPrintString("�� . . .");//????????
+    returnValueInt = byPPrintString("?? . . .");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('�� . . .') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('?? . . .') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
@@ -517,18 +855,18 @@ int PrintBarcodeTicket(int codeType)
         goto ExitLine;
     }
 
-    returnValueInt = byPPrintString("�绰��ѯ:123456���Ų�ѯ:����1234����4321");//????????
+    returnValueInt = byPPrintString("??????:123456??????:????1234????4321");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('�绰��ѯ') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('??????') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
     byPFeedLine(1);//???
-    returnValueInt = byPPrintString("����������ͬ�����ţ�������");//????????
+    returnValueInt = byPPrintString("????????????????????????");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('��������') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('????????') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
@@ -674,21 +1012,13 @@ int PrintBarcodeTicket(int codeType)
     byPCutPaper();//???
 
     //*****************************************************************************************************************
-    //?��?????????
+    //????????????
 
     ExitLine:
         return  false;
     return TRUE;
 }
 
-JNIEXPORT jstring JNICALL Java_com_example_andrivertest_PrinterInterface_GetLastErrStr
-        (JNIEnv *env, jobject) {
-
-        char	errStr[256] = {0x00};
-        byPGetLastErrorStr(errStr, 200);
-        return env->NewStringUTF(errStr);
-
-}
 
 JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PrintSample
         (JNIEnv *, jobject, jint mode) {
@@ -698,7 +1028,7 @@ JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PrintS
     if(ret != 0)
         return false;
     PSetCutterMode(mode);
-    if (PrintPDF417() != PRINTER_NO_ERROR)
+    if (Print_PDF417() != PRINTER_NO_ERROR)
         return false;
     return true;
 }
@@ -720,7 +1050,7 @@ JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PrintA
             return false;
 
         }
-        returnValueBool = byPSetLineSpace(36);//?????��?
+        returnValueBool = byPSetLineSpace(36);//????????
         if(!returnValueBool)
         {
             printf("PrinterSetLineSpace(36) failed!\n");
@@ -736,7 +1066,7 @@ JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PrintA
             return false;
         }
 
-        returnValueInt = byPPrintString("�����ַ���");//????????
+        returnValueInt = byPPrintString("?????????");//????????
         byPFeedLine(4);
         returnValueInt =byPPrintString("zxcvbnmlkjhgfdsaqwertyuiopZXCVBNMLKJHGFDSAQWERTYUIOP0123456789[]{}-=_+,./<>?`1~!@#$%^&*()");
         byPFeedLine(4);
@@ -796,7 +1126,7 @@ JNIEXPORT jstring JNICALL Java_com_example_andrivertest_PrinterInterface_PrintBa
     LOGI("codeTypessss=%d",type);
     switch (type){
         case 0: //pdf
-            PrintPDF417();
+            Print_PDF417();
             break;
         case 1: //QR
 
@@ -828,25 +1158,25 @@ JNIEXPORT bool JNICALL Java_com_example_andrivertest_PrinterInterface_PrintPaper
     bool ret = true;
     PSetPageMode(400 , 700 , 40 , 40);
     PSetAngle(90);
-    PPrintString("�й�������Ʊ1�й�������Ʊ2�й�������Ʊ3�й�������Ʊ4");
+    PPrintString("???????????1???????????2???????????3???????????4");
     PPrintPage();
     ret = PCutPaper();
 
     PSetPageMode(400 , 700 , 40 , 40);
     PSetAngle(180);
-    PPrintString("�й�������Ʊ1�й�������Ʊ2�й�������Ʊ3�й�������Ʊ4");
+    PPrintString("???????????1???????????2???????????3???????????4");
     PPrintPage();
     ret = PCutPaper();
 
     PSetPageMode(400 , 700 , 40 , 40);
     PSetAngle(270);
-    PPrintString("�й�������Ʊ1�й�������Ʊ2�й�������Ʊ3�й�������Ʊ4");
+    PPrintString("???????????1???????????2???????????3???????????4");
     PPrintPage();
     ret = PCutPaper();
 
     PSetPageMode(400 , 700 , 40 , 40);
     PSetAngle(0);
-    PPrintString("�й�������Ʊ1�й�������Ʊ2�й�������Ʊ3�й�������Ʊ4");
+    PPrintString("???????????1???????????2???????????3???????????4");
     PPrintPage();
     ret = PCutPaper();
 
@@ -857,43 +1187,25 @@ JNIEXPORT bool JNICALL Java_com_example_andrivertest_PrinterInterface_PrintPaper
     return true;
 }
 
-JNIEXPORT bool JNICALL Java_com_example_andrivertest_PrinterInterface_PrintString
-        (JNIEnv *, jobject , jstring str) {
+JNIEXPORT jint JNICALL Java_com_example_andrivertest_PrinterInterface_PPrintString
+        (JNIEnv *env, jobject , jbyteArray charArray) {
 
-    LOGI("byPPrintString input");
-    int ret = byPPrintString("cutpaper test\n");
-
-    if(ret != NO_ERROR)
-        return false;
-    PCutPaper();
-
-    char err[256] = {0x00};
-    byPGetLastErrorStr(err,200);
-    LOGI("byPPrintString return %d err = %s",ret,err);
-
-
-    return true;
+    char* str = (char*)env->GetByteArrayElements(charArray,0);
+    int ret = byPPrintString(str);
+    return 0;
 }
 
-JNIEXPORT bool JNICALL Java_com_example_andrivertest_PrinterInterface_CutPaper
+JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_CutPaper
         (JNIEnv *, jobject) {
-    bool ret = PCutPaper();
+    bool flag = PCutPaper();
+    return flag;
 
 }
 
-JNIEXPORT bool JNICALL Java_com_example_andrivertest_PrinterInterface_PSetPageMode
-        (JNIEnv *, jobject, jint width ,jint heigt, jint leftTop_x, jint leftTop_y) {
-    int wid = width;
-    int h = heigt;
-    int leftx = leftTop_x;
-    int lefty = leftTop_y;
-    PSetPageMode(wid , h , leftx , lefty);
-}
 
 JNIEXPORT jstring JNICALL Java_com_example_andrivertest_PrinterInterface_GetPrintHwInfo
         (JNIEnv *env, jobject) {
 
-//    PInit("/sdcard", "/sdcard");
     char info[1024] = {0x00};
     bool ret = PGetHWInformation(info, 1000);
     if (!ret) {
@@ -907,8 +1219,7 @@ JNIEXPORT jstring JNICALL Java_com_example_andrivertest_PrinterInterface_GetPrin
         LOGI("gethwinfo return = %d, hwinfo = %s", ret, info);
 
     }
-    bool isready = byPPrinterIsReady();
-    LOGI("printerIsReady return = %d",isready);
+
 
     return env->NewStringUTF(info);
 }
@@ -934,7 +1245,7 @@ JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_GetAut
 
 }
 
-JNIEXPORT jint JNICALL Java_com_example_andrivertest_PrinterInterface_GetLastErrCode
+JNIEXPORT jint JNICALL Java_com_example_andrivertest_PrinterInterface_PGetLastErrorCode
         (JNIEnv *, jobject) {
     int errCode = byPGetLastErrorCode();
     return  errCode;

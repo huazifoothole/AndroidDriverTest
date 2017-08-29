@@ -1,7 +1,10 @@
 package com.example.andrivertest;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -44,13 +47,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Button mExecButton;
     @BindView(R.id.clearResultButton)
             Button mClearResultTextBtn;
+    @BindView(R.id.execResult_editText)
+            EditText mOutResult_editText;
 
     //接口提示
     Map<String,String> printInterfaceMap = null;
     //默认参数map
     Map<String,String> printDefMap = null;
+    Map<String, String> HscannerDefMap = null;
 
     String showCmdStr;
+
+    String logString= "";
 
     List<String> mApiList  = new ArrayList<String>();
 
@@ -66,16 +74,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        initDev();//获取打印机usb设备权限
         apiInit();
         InitView();
 
     }
 
-    /**
-     * A native method that is implemented by the 'native-lib' native library,
-     * which is packaged with this application.
-     */
-//    public native String stringFromJNI();
+
+    private void initDev(){
+        //打开打印机usb权限
+        try {
+            Process su;
+            su = Runtime.getRuntime().exec("/system/xbin/su");
+            String cmd = "chmod  777 /dev/bus/usb/* \n"
+                    + "exit\n";
+            String cmd2 = "chmod  777 /dev/bus/usb/*/* \n"
+                    + "exit\n";
+            su.getOutputStream().write(cmd.getBytes());
+            su.getOutputStream().write(cmd2.getBytes());
+            if (su.waitFor() != 0) {
+                throw new SecurityException();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new SecurityException();
+        }
+    }
+
 
 
     private void apiInit() {
@@ -83,6 +108,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         printInterfaceMap = new HashMap<String, String>();
         //打印机接口和默认参数
         printDefMap = new HashMap<String, String>();
+
+
 
         //printerAPI
         printInterfaceMap.put("PInit",  "int PInit(const char* input_dir, const char* output_dir)");
@@ -142,43 +169,84 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         printDefMap.put( "PSetLineMode",  "");
         printDefMap.put( "PPrintPage",  "");
         printDefMap.put( "PSetFontEmpha",  "1");
-
         printDefMap.put( "PSetLineSpace",  "1");
         printDefMap.put( "PSetCharSpace",  "3");
         printDefMap.put( "PSetLeftMargin",  "1");
         printDefMap.put( "PSetAreaWidth",  "400");
         printDefMap.put( "PQueryCapability",  "");
-
         printDefMap.put( "PPrinterIsReady",  "");
         printDefMap.put(  "PGetDpi",  "width height");
         printDefMap.put( "PGetHWInformation",  "str 1024");
         printDefMap.put( "PGetSWVersion",  "str 1024");
         printDefMap.put( "PGetLastErrorCode",  "");
-
         printDefMap.put( "PGetLastErrorStr",  "str 1024");
         printDefMap.put( "PPrintString",  "中国体育彩票");
         printDefMap.put( "PFeedLine",  "3");
         printDefMap.put( "PCutPaper",  "");
-
         printDefMap.put( "PrintPDF417",  "15 30 20 6 3 {AQESNFZ4kBI0VniQEjQSNFZIMEYCIQCHk7XnWDp5g19LGnsHcxKQMyMDIzgfT22vEoAHFvxDEAIhAJjQNoJ3YQImY7FI+A+gaKci3jojICrT/+g9kQvMOYVi} 121 1");
         printDefMap.put( "PSetUserChar",  "32 32 12 java 4");
         printDefMap.put( "PUnsetUserChar",  "32 32");
         printDefMap.put( "PPrintUserChar",  "32 32"); //new add
         printDefMap.put( "PPrintUserBitmap",  "100 100 bitmapdata");  //param modified
-        printDefMap.put( "PPrintDiskImage",  "100 100 ./TestImage/printerDiskImage.bmp");
-
+        printDefMap.put( "PPrintDiskImage",  "100 100 /sdcard/TestImage/printerDiskImage.bmp");
         printDefMap.put( "PPrintBlackMark", "101010100010 12");
         printDefMap.put( "PGetTopMargin",  "str");
         printDefMap.put( "PPrintIsComplete",  "3");
         printDefMap.put( "PGetPrintLength",  "");
-
         printDefMap.put( "PLoadLogoImage",  "4 dataList");
         printDefMap.put( "PLoadDiskLogo",  "4 imgList");
         printDefMap.put( "PPrintLogo",  "3 3 0");
         printDefMap.put( "PSetAngle",  "90");
         printDefMap.put( "PExec_ESC_POS",  "{PRINT #1, 'AAAAA'; CHR$(&HA);} 10");
-
         printDefMap.put( "printSample",  "0");  //just for test
+
+
+        //条码枪接口和默认参数
+        HscannerDefMap = new HashMap<String, String>();
+
+        //条码枪默认参数设置
+        //hScannerAPI
+        HscannerDefMap.put("BCRInit","NULL /sdcard/ /sdcard/");
+        HscannerDefMap.put("BCRClose","");
+        HscannerDefMap.put("BCRGetLastErrorCode","");
+        HscannerDefMap.put("BCRQueryCapability","");
+        HscannerDefMap.put("BCRGetLastErrorStr","str 1024");
+
+        HscannerDefMap.put("BCRAimOn","");
+        HscannerDefMap.put("BCRAimOff","");
+        HscannerDefMap.put("BCREnable","");
+
+        HscannerDefMap.put("BCRDisable","");
+        HscannerDefMap.put("BCREnableCode","52");
+        HscannerDefMap.put("BCRDisableCode","52");
+        HscannerDefMap.put("BCRSleep","0");
+        HscannerDefMap.put("BCRWakeup","");
+
+        HscannerDefMap.put("BCRResetComm","");
+        HscannerDefMap.put("BCRStartScan","");
+        HscannerDefMap.put("BCRStopScan","");
+        HscannerDefMap.put("BCRScanIsComplete","");
+        HscannerDefMap.put("BCRIsReady","");
+
+        HscannerDefMap.put("BCRSetScanMode","0");
+        HscannerDefMap.put("BCRGetScanMode","mode");
+        HscannerDefMap.put("BCRGetTriggerStatus","status");
+        HscannerDefMap.put("BCRGetScanDpi","width height");
+
+        HscannerDefMap.put("BCRGetImageSize","width height buffsize");
+        HscannerDefMap.put("BCRGetImage","str 1024");
+        HscannerDefMap.put("BCRGetDataLength","len");
+        HscannerDefMap.put("BCRGetTicketInfo","str 1024");
+        HscannerDefMap.put("BCRBeep","1");
+
+        HscannerDefMap.put("BCREnableBeep","");
+        HscannerDefMap.put("BCRDisableBeep","");
+        HscannerDefMap.put("BCRClearBuffer","");
+        HscannerDefMap.put("BCRGetHWInformation","str 1024");
+        HscannerDefMap.put("BCRGetSWVersion","str 1024");
+
+        HscannerDefMap.put("BCRUserLEDOn","mode");
+        HscannerDefMap.put("BCRUserLEDOff","");
 
         mDrivertetScript = new DrivertestScript();
 
@@ -228,8 +296,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         );
 
         final List<String> hscanApiList = Arrays.asList(
-                "BCRInit",
-                "BCRClose"
+                "BCRInit",  //打开扫描枪函数, 完成扫描识别的初始化
+                "BCRClose",  //关闭设备
+                "BCRGetLastErrorCode", //获取最近一次的错误码
+                "BCRQueryCapability",  //扫描枪能力查询
+                "BCRGetLastErrorStr",  //获取最近一次的错误描述
+                "BCRAimOn",  //打开瞄准灯
+                "BCRAimOff",  //关闭瞄准灯
+                "BCREnable",  //启用扫描枪设备
+                "BCRDisable",  //禁用扫描枪设备
+                "BCREnableCode", //启用某种条码类型的支持
+                "BCRDisableCode",  //关闭某种条码类型的支持
+                "BCRSleep", //进入休眠模式
+                "BCRWakeup",  //唤醒扫描枪
+                "BCRResetComm",  //重置通讯
+                "BCRStartScan",  //开始扫描识别
+                "BCRStopScan",  //停止扫描识别
+                "BCRScanIsComplete", //是否扫描完成
+                "BCRIsReady", //检测扫描枪是否就绪
+                "BCRSetScanMode", //设置扫描枪的模式
+                "BCRGetScanMode",  //获取扫描枪的模式
+                "BCRGetTriggerStatus", //获取扫描枪扳机状态
+                "BCRGetScanDpi", //获取扫描图像的分辨率
+                "BCRGetImageSize", //获得原始图像大小
+                "BCRGetImage",  //获得原始图像
+                "BCRGetDataLength", //获取扫描数据的长度
+                "BCRGetTicketInfo", //读取扫描的内容
+                "BCRBeep", //播放扫描枪提示音
+                "BCREnableBeep", //允许扫描枪播放提示音
+                "BCRDisableBeep", //禁止扫描枪播放提示音
+                "BCRClearBuffer", //清空扫描枪缓存中的数据
+                "BCRGetHWInformation", //取得扫描仪的硬件信息
+                "BCRGetSWVersion",//获取软件版本号
+                "BCRUserLEDOn",  //打开并设置反馈灯的颜色
+                "BCRUserLEDOff"  //关闭用户反馈灯
         );
 
         mApiList.clear();
@@ -243,12 +343,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String tmpStr = mInterfaceSpinner.getSelectedItem().toString();
-                for(int i=0; i< printInterfaceMap.size() ; i++){
+//                for(int i=0; i< printInterfaceMap.size() ; i++){
                     if( printInterfaceMap.containsKey(tmpStr)){
                         mParamEditText.setText(printDefMap.get(tmpStr));
                         mParamTipView.setText(printInterfaceMap.get(tmpStr));
+                    }else if(HscannerDefMap.containsKey(tmpStr)){
+                        mParamEditText.setText(HscannerDefMap.get(tmpStr));
+                        mParamTipView.setText("");
                     }
-                }
+//                }
             }
 
             @Override
@@ -272,9 +375,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }else if(0 == typeStr.compareTo("Hscanner")){
                     mApiList.clear();
                     mApiList.addAll(hscanApiList);
+                    mParamEditText.setText(HscannerDefMap.get(mInterfaceSpinner.getSelectedItem().toString()));
                 }
 
                 interfaceAdapter.notifyDataSetChanged();
+                mInterfaceSpinner.callOnClick();
 
             }
 
@@ -287,7 +392,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    @OnClick ({R.id.addButton, R.id.clearCmdButton,R.id.execButton})
+    public static final int update_outStr = 1;
+
+    //更新输出界面
+    private Handler outHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case update_outStr:
+                    String outStr = (String) msg.obj;
+                    logString = logString + outStr + "\n";
+                    mOutResult_editText.setText(logString);
+                    break;
+            }
+        }
+    };
+
+    @OnClick ({R.id.addButton, R.id.clearCmdButton,R.id.execButton,R.id.clearResultButton})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -312,9 +433,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 int count = Integer.parseInt(repeat);
                 if(count > 0){
                     for (int i=0;i<count;i++){
-                        mDrivertetScript.scriptParser(showCmdStr);
+                        final List<String> outList = new ArrayList<>();
+                        mDrivertetScript.scriptParser(showCmdStr,outList);
+                        if(outList.size() > 0){
+
+                            Log.i(TAG, "list=" + outList.toString()+" outlist size="+outList.size());
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    String outString ="";
+
+                                    for(String s : outList){
+                                        Log.i(TAG, "ss=" + s);
+                                        outString += s + "\t";
+                                    }
+                                    Message message = new Message();
+                                    message.what = update_outStr;
+                                    message.obj = outString;
+                                    outHandler.sendMessage(message);
+                                }
+                            }).start();
+                        }
+
                     }
                 }
+                break;
+            case R.id.clearResultButton:
+                mOutResult_editText.setText("");
+                logString = "";
                 break;
         }
     }
