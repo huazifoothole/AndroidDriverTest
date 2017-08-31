@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bcr_fragment">
+
+    <Button
+        android:id="@+id/startscan_bt"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_widthPercent="18%"
+        app:layout_heightPercent="15%"
+        android:layout_marginTop="45dp"
+        android:layout_marginLeft="20dp"
+        android:text="StartScan"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/stopscan_bt"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_widthPercent="18%"
+        app:layout_heightPercent="15%"
+        android:layout_alignBaseline="@+id/startscan_bt"
+        android:layout_toRightOf="@+id/startscan_bt"
+        android:layout_marginLeft="10dp"
+        android:text="StopScan"
+        android:textAllCaps="false"/>
+
+    <TextView
+        android:id="@+id/ticket_type"
+        android:layout_below="@+id/startscan_bt"
+        android:layout_alignLeft="@+id/startscan_bt"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="type:"/>
+
+    <RadioGroup
+        android:id="@+id/dataChoice_riogroup"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_widthPercent="20%"
+        app:layout_heightPercent="10%"
+        android:layout_toRightOf="@id/stopscan_bt"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/data_radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="data"/>
+        <RadioButton
+            android:id="@+id/hex_radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="hex"/>
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/showdata_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_widthPercent="50%"
+        app:layout_heightPercent="80%"
+        android:layout_below="@+id/dataChoice_riogroup"
+        android:layout_toRightOf="@+id/stopscan_bt"
+        android:layout_marginLeft="30dp"
+        android:gravity="top"
+        android:textSize="20sp"
+        />
+
+</android.support.percent.PercentRelativeLayout>
