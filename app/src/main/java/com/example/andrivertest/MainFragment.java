@@ -180,7 +180,6 @@ public class MainFragment extends Fragment {
         printDefMap.put( "PExec_ESC_POS",  "{PRINT #1, 'AAAAA'; CHR$(&HA);} 10");
         printDefMap.put( "printSample",  "0");  //just for test
 
-
         //条码枪接口和默认参数
         HscannerDefMap = new HashMap<String, String>();
 

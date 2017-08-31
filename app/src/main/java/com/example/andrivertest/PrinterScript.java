@@ -636,9 +636,25 @@ public class PrinterScript {
                 ret = 0;
                 outlist.add(succStr);
             }
+        }
+        else if(0 == cmd.compareTo("PrintSample")){
+            if(argNum == 1){
+                boolean flag = mPrinterAPI.PrintSample(0);
+                if(flag){
+                    ret = 0;
+                    outlist.add(succStr);
+                }else {
+                    ret = -1;
+                    outlist.add(failStr);
+                }
+            }else {
+                outlist.add(argError);
+            }
+
         }else{
             outlist.add(argError);
         }
+
 
 
 
