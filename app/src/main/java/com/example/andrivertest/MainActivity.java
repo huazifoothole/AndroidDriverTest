@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        initDev();//获取打印机usb设备权限
+//        initDev();//获取打印机usb设备权限
         initView();
 
     }

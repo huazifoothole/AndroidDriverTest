@@ -7,18 +7,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 /**
  * Created by chandler on 2017/8/29.
  */
-
 public class PagerAdapter extends FragmentPagerAdapter {
-
-    private String[] titles = new String[]{"Interface Test","BCRTests"};
-
+    private String[] titles = new String[]{"Interface Test","BCR Test"};
     MainFragment mainFragment = new MainFragment();
     BCRFragment bcrFragment = new BCRFragment();
 
     public PagerAdapter(FragmentManager fm) {
-
         super(fm);
-
     }
 
     @Override

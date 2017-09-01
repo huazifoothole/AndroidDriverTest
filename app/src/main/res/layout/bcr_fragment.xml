@@ -15,6 +15,7 @@
         android:layout_marginTop="45dp"
         android:layout_marginLeft="20dp"
         android:text="StartScan"
+        android:textSize="30sp"
         android:textAllCaps="false"/>
 
     <Button
@@ -26,6 +27,7 @@
         android:layout_alignBaseline="@+id/startscan_bt"
         android:layout_toRightOf="@+id/startscan_bt"
         android:layout_marginLeft="10dp"
+        android:textSize="30sp"
         android:text="StopScan"
         android:textAllCaps="false"/>
 
@@ -36,6 +38,7 @@
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="20sp"
         android:text="type:"/>
 
     <RadioGroup
@@ -54,11 +57,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
+            android:textSize="20sp"
             android:text="data"/>
         <RadioButton
             android:id="@+id/hex_radio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="20sp"
             android:text="hex"/>
 
     </RadioGroup>
@@ -73,7 +78,9 @@
         android:layout_toRightOf="@+id/stopscan_bt"
         android:layout_marginLeft="30dp"
         android:gravity="top"
-        android:textSize="20sp"
+        android:textSize="30sp"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="false"
         />
 
 </android.support.percent.PercentRelativeLayout>

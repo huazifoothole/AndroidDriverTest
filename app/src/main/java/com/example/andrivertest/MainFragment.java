@@ -136,7 +136,7 @@ public class MainFragment extends Fragment {
         printInterfaceMap.put( "PSetAngle",  "bool PSetAngle(unsigned int const angle)");
         printInterfaceMap.put( "PExec_ESC_POS",  "bool PExec_ESC_POS(char* const command, int const strLen)");
 
-        printInterfaceMap.put( "printSample",  "bool printSample(int ype)");  //just for test
+        printInterfaceMap.put( "PrintSample",  "bool printSample(int ype)");  //just for test
 
 
         /*默认参数设置*/
@@ -178,7 +178,7 @@ public class MainFragment extends Fragment {
         printDefMap.put( "PPrintLogo",  "3 3 0");
         printDefMap.put( "PSetAngle",  "90");
         printDefMap.put( "PExec_ESC_POS",  "{PRINT #1, 'AAAAA'; CHR$(&HA);} 10");
-        printDefMap.put( "printSample",  "0");  //just for test
+        printDefMap.put( "PrintSample",  "0");  //just for test
 
         //条码枪接口和默认参数
         HscannerDefMap = new HashMap<String, String>();
@@ -207,7 +207,7 @@ public class MainFragment extends Fragment {
         HscannerDefMap.put("BCRScanIsComplete","");
         HscannerDefMap.put("BCRIsReady","");
 
-        HscannerDefMap.put("BCRSetScanMode","0");
+        HscannerDefMap.put("BCRSetScanMode","2");
         HscannerDefMap.put("BCRGetScanMode","mode");
         HscannerDefMap.put("BCRGetTriggerStatus","status");
         HscannerDefMap.put("BCRGetScanDpi","width height");
@@ -271,7 +271,8 @@ public class MainFragment extends Fragment {
                 "PLoadDiskLogo" ,  //下载自定义LOGO到打印机
                 "PPrintLogo" ,  //打印LOGO图标
                 "PSetAngle" ,  //设置打印的旋转角度
-                "PExec_ESC_POS"   //执行ESC/POS命令
+                "PExec_ESC_POS" ,//执行ESC/POS命令
+                "PrintSample"
         );
 
         final List<String> hscanApiList = Arrays.asList(

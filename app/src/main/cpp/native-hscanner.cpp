@@ -100,6 +100,7 @@ JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_BCRInterface_BCRScanIsC
 
     bool flag = false;
     flag = BCRScanIsComplete();
+//    LOGI("bcriscomplete return=%d",flag);
     return flag;
 }
 
@@ -118,7 +119,7 @@ JNIEXPORT jint JNICALL Java_com_example_andrivertest_BCRInterface_BCRGetTicketIn
     unsigned char info[4096] = {0};
     memset(info, 0, sizeof(info));
     returnValue = BCRGetTicketInfo(info, 4096);
-//    LOGI("bcrticketinfo =%s \tsize=%d\tlength=%d",info+7, sizeof(info),returnValue);
+    LOGI("ticket length=%d",returnValue);
 
     env->SetByteArrayRegion(ticketinfo,0,returnValue,(jbyte*)info);
     return returnValue;
@@ -352,6 +353,7 @@ JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_BCRInterface_BCRGetData
 
     unsigned int l=0;
     flag = BCRGetDataLength(&l);
+    LOGI("len===%d",l);
 
     env->SetIntField(length, id, l);
     return flag;

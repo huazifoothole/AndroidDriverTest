@@ -638,6 +638,7 @@ public class PrinterScript {
             }
         }
         else if(0 == cmd.compareTo("PrintSample")){
+            Log.i(MainActivity.TAG, "argnum=" + argNum);
             if(argNum == 1){
                 boolean flag = mPrinterAPI.PrintSample(0);
                 if(flag){

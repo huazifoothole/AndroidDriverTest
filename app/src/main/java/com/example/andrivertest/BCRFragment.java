@@ -67,7 +67,7 @@ public class BCRFragment extends Fragment implements View.OnClickListener , Radi
                     String ticketInfo = msg.getData().getString(TICKET_INFO);
                     TICKETINFO = ticketInfo;
                     int type = msg.getData().getInt(DATA_TYPE);
-
+                    Log.i(MainActivity.TAG,"isChecked="+mDataRadio.isChecked());
                     if(mDataRadio.isChecked()){
                         mShowDataView.setText("");
                     String strType = "";
@@ -96,7 +96,7 @@ public class BCRFragment extends Fragment implements View.OnClickListener , Radi
                             strType = "Code128";
                         }
 
-                        mTicketType.setText("type:"+strType);
+                        mTicketType.setText("type: "+strType);
                         mShowDataView.setText("ticketinfo=\n"+ticketInfo);
 
                     }
@@ -137,16 +137,32 @@ public class BCRFragment extends Fragment implements View.OnClickListener , Radi
             @Override
             public void run() {
                 while (isScan){
-                    while (mBCRInerface.BCRScanIsComplete()){
-//                        mBCRInerface.BCRBeep(0);
-                        byte[] ticketinfo = new byte[4096];
-                        int length = mBCRInerface.BCRGetTicketInfo(ticketinfo, 4096);
-                        ScanData = ticketinfo;
-                        ticketLength = length;
-                        if(length != 0){
+                    while (isScan){
+                        if(mBCRInerface.BCRScanIsComplete()){
+                            //添加beep会get不到数据？？
+//                            mBCRInerface.BCRBeep(0);
+                            Log.i(MainActivity.TAG, "BCRScanIsComplete");
+                            break;
+                        }
+                        //500ms轮询一次
+                        try {
+                            Thread.sleep(500);
+                        }catch (InterruptedException e){
+                            e.printStackTrace();
+
+                        }
+                    }
+                    byte[] ticketinfo = new byte[4096];
+                    Integer len = new Integer(0);
+                    mBCRInerface.BCRGetDataLength(len);
+                    int length = mBCRInerface.BCRGetTicketInfo(ticketinfo, 4096);
+                    ScanData = ticketinfo;
+                    ticketLength = len;
+                    Log.i(MainActivity.TAG,"BCRGetTicketInfo"+"\nlength="+len);
+                        if(len > 0){
                             int type = ticketinfo[0] & 0xff;
                             try {
-                                String ticketmsg = new String(ticketinfo, 7, length, "gbk");
+                                String ticketmsg = new String(ticketinfo, 7, len, "gbk");
                                 String tmpstr= new String(ScanData, 7, length, "gbk");
                                 Log.i(MainActivity.TAG, "ticketinfo =="+ticketmsg);
                                 Message message = new Message();
@@ -161,7 +177,7 @@ public class BCRFragment extends Fragment implements View.OnClickListener , Radi
                                 e.printStackTrace();
                             }
                         }
-                    }
+
                 }
             }
         }).start();

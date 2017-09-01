@@ -444,8 +444,6 @@ JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PrintI
 
 }
 
-
-
 bool Print_PDF417() {
     //*****************************************************************************************************************
     //??????????????
@@ -480,7 +478,7 @@ bool Print_PDF417() {
     }
 
     //*****************************************************************************************************************
-    //????????????????
+    //?ж??豸?????????
 //    byPPrinterIsReady();
 
     //*****************************************************************************************************************
@@ -493,7 +491,7 @@ bool Print_PDF417() {
         goto ExitLine;
     }
 
-    returnValueBool = byPSetLineSpace(10);//????????
+    returnValueBool = byPSetLineSpace(10);//?????и?
     if(!returnValueBool)
     {
         printf("PrinterSetLineSpace(36) failed!\n");
@@ -508,14 +506,14 @@ bool Print_PDF417() {
         goto ExitLine;
     }
 
-    returnValueInt = byPPrintString("????<???????????3>\n\n");//????????
+    returnValueInt = byPPrintString("演示票<全国联网排列3>\n\n");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('????<???????????3>') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('演示票<全国联网排列3>') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
-    returnValueBool = byPSetLineSpace(14);//?????????
+    returnValueBool = byPSetLineSpace(14);//?????м??
     if(!returnValueBool)
     {
         printf("PrinterSetLineSpace(24) failed!\n");
@@ -537,30 +535,20 @@ bool Print_PDF417() {
         goto ExitLine;
     }
 
-    returnValueInt = byPPrintString("?????:06034      06073?? 2006/03/22????");//????????
+    returnValueInt = byPPrintString("销售点:06034      06073期 2006/03/22开奖");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('?????:06034') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('销售点:06034') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
     byPPrintString("\n");
 
-    returnValueInt = byPPrintString("??:1  ???:2?       2006/03/22 12:26:49\n");//????????
+    returnValueInt = byPPrintString("倍:1  合计:2元       2006/03/22 12:26:49\n");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('??:1  ???:2?') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('倍:1  合计:2元') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
-
-    //begin = systick();
-//    returnValueInt = byPPrintIsComplete(5);//????????????
-//    if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
-//    {
-//        printf("PrinterPrintIsComplete('%s') failed, return code: %d\n", barCode, returnValueInt);
-//        goto ExitLine;
-//    }
-//    //    begin = systick() - begin;
-//    printf("PrinterPrintIsComplete(2)-time is %d\n",begin);
 
     byPFeedLine(1);//???
     returnValueBool = byPSetFont(0x00,0x10,0x01);
@@ -570,51 +558,51 @@ bool Print_PDF417() {
         goto ExitLine;
     }
 
-    returnValueInt = byPPrintString("?? ? ?");//????????
+    returnValueInt = byPPrintString("单 式 票");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('?? ? ?') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('单 式 票') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
     byPFeedLine(1);//???
-    returnValueInt = byPPrintString("?? 3 3 2");//????????
+    returnValueInt = byPPrintString("① 3 3 2");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('?? 3 3 2') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('① 3 3 2') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
     byPFeedLine(1);//???
 
-    returnValueInt = byPPrintString("?? 5 8 1");//????????
+    returnValueInt = byPPrintString("② 5 8 1");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('?? 5 8 1') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('② 5 8 1') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
     byPFeedLine(1);//???
-    returnValueInt = byPPrintString("?? 3 3 2");//????????
+    returnValueInt = byPPrintString("③ 3 3 2");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('?? 3 3 2') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('③ 3 3 2') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
     byPFeedLine(1);//???
-    returnValueInt = byPPrintString("?? 5 8 3");//????????
+    returnValueInt = byPPrintString("④ 5 8 3");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('?? 5 8 3') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('④ 5 8 3') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
     byPFeedLine(1);//???
-    returnValueInt = byPPrintString("?? 3 3 2");//????????
+    returnValueInt = byPPrintString("⑤ 3 3 2");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('?? 3 3 2') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('⑤ 3 3 2') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
@@ -627,25 +615,25 @@ bool Print_PDF417() {
         goto ExitLine;
     }
 
-    returnValueInt = byPPrintString("??????:123456??????:????1234????4321");//????????
+    returnValueInt = byPPrintString("电话查询:123456短信查询:输入1234发至4321");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('??????') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('电话查询') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
     byPFeedLine(1);//???
-    returnValueInt = byPPrintString("????????????????????????");//????????
+    returnValueInt = byPPrintString("＊＊＊＊胡同＊＊号＊＊大厦");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('????????') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('＊＊＊＊') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
     returnValueInt = byPPrintString("\n\n\n");//????????
     if(returnValueInt != PRINTER_NO_ERROR && returnValueInt != 0x0B)
     {
-        printf("PrinterPrintString('????????') failed, return code: %d\n", returnValueInt);
+        printf("PrinterPrintString('＊＊＊＊') failed, return code: %d\n", returnValueInt);
         goto ExitLine;
     }
 
@@ -681,7 +669,7 @@ bool Print_PDF417() {
 
     returnValue = true;
     ExitLine:
-        return  false;
+    return  false;
 
     return returnValue;
 }
