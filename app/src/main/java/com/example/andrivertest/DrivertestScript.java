@@ -2,6 +2,7 @@ package com.example.andrivertest;
 
 import android.util.Log;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -115,6 +116,8 @@ public class DrivertestScript {
                         ret = mPrinterSript_.handleCommands(mCmd, argList, outList);
                     }catch (UnsupportedEncodingException e){
                         e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
 
                     outList.add("\n");
@@ -134,9 +137,6 @@ public class DrivertestScript {
                 }
             }
         }
-
-
-
 
         return ret;
     }

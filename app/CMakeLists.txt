@@ -18,10 +18,6 @@ include_directories(${CMAKE_SOURCE_DIR}/src/main/cpp)
 
 
 
-add_library(libscanprn SHARED IMPORTED)
-set_target_properties(libscanprn  PROPERTIES
-        IMPORTED_LOCATION  "${libs}/${ANDROID_ABI}/libscanprn.so")
-
 add_library(libbitmap SHARED IMPORTED)
 set_target_properties(libbitmap  PROPERTIES
         IMPORTED_LOCATION  "${libs}/${ANDROID_ABI}/libbitmap.so")
@@ -38,13 +34,15 @@ add_library(libusb1.0 SHARED IMPORTED)
 set_target_properties(libusb1.0  PROPERTIES
         IMPORTED_LOCATION  "${libs}/${ANDROID_ABI}/libusb1.0.so")
 
-add_library(libbcr SHARED IMPORTED)
-set_target_properties(libbcr  PROPERTIES
-                IMPORTED_LOCATION  "${libs}/${ANDROID_ABI}/libbcr.so")
 
-add_library(libHWIILOTBCR SHARED IMPORTED)
-set_target_properties(libHWIILOTBCR  PROPERTIES
-                IMPORTED_LOCATION  "${libs}/${ANDROID_ABI}/libHWIILOTBCR.so")
+add_library(libHWILatechPrinter SHARED IMPORTED)
+set_target_properties(libHWILatechPrinter PROPERTIES
+                IMPORTED_LOCATION  "${libs}/${ANDROID_ABI}/libHWILatechPrinter.so")
+
+
+add_library(libHWICgltBCR SHARED IMPORTED)
+set_target_properties(libHWICgltBCR  PROPERTIES
+                IMPORTED_LOCATION  "${libs}/${ANDROID_ABI}/libHWICgltBCR.so")
 
 set(CMAKE_CXX_FLAGS "-std=c++11")
 
@@ -90,7 +88,7 @@ find_library( # Sets the name of the path variable.
 
 target_link_libraries( # Specifies the target library.
                        native-hscanner
-                       libHWIILOTBCR
+                       libHWICgltBCR
 
                        # Links the target library to the log library
                        # included in the NDK.
@@ -98,7 +96,7 @@ target_link_libraries( # Specifies the target library.
 
 target_link_libraries( # Specifies the target library.
                        native-printer
-                       libscanprn
+                       libHWILatechPrinter
                        libConfigFileINI
                        libflog
                        libusb1.0

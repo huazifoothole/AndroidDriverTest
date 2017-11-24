@@ -277,7 +277,7 @@ JNIEXPORT int JNICALL Java_com_example_andrivertest_PrinterInterface_PrintPDF417
  * Signature: (I)Ljava/lang/String;
  */
 JNIEXPORT bool JNICALL Java_com_example_andrivertest_PrinterInterface_PSetUserChar
-        (JNIEnv *, jobject, jint, jint ,jint , jcharArray , jint);
+        (JNIEnv *, jobject, jint, jint ,jint);
 
 /*
  * Class:     com_example_andrivertest_PrinterInterface
@@ -342,7 +342,7 @@ JNIEXPORT jlong JNICALL Java_com_example_andrivertest_PrinterInterface_PGetPrint
  * Signature: (I)Ljava/lang/String;
  */
 JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PLoadLogoImage
-        (JNIEnv *, jobject, jint, jobjectArray);
+        (JNIEnv *, jobject, jint);
 
 /*
  * Class:     com_example_andrivertest_PrinterInterface
@@ -400,7 +400,8 @@ JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PSetLi
 JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PPrintPage
         (JNIEnv *, jobject);
 
-
+JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_PrinterInterface_PPrintUserBitmap
+        (JNIEnv *, jobject,jint,jint);
 
 
 

@@ -21,6 +21,23 @@ android {
             abiFilters 'armeabi', 'armeabi-v7a'
         }
     }
+
+    signingConfigs {
+        release {
+            storeFile file("../zhongqikey-xinbu.jks")
+            storePassword '111111'
+            keyAlias 'zhongqi'
+            keyPassword '111111'
+        }
+
+        debug {
+            storeFile file("../zhongqikey-xinbu.jks")
+            storePassword '111111'
+            keyAlias 'zhongqi'
+            keyPassword '111111'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false

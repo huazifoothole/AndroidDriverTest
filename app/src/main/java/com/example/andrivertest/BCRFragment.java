@@ -56,6 +56,7 @@ public class BCRFragment extends Fragment implements View.OnClickListener , Radi
         View view = inflater.inflate(R.layout.bcr_fragment, container, false);
         ButterKnife.bind(this, view);
         mRadioGroup.setOnCheckedChangeListener(this);
+
         return view;
     }
 
@@ -149,7 +150,6 @@ public class BCRFragment extends Fragment implements View.OnClickListener , Radi
                             Thread.sleep(500);
                         }catch (InterruptedException e){
                             e.printStackTrace();
-
                         }
                     }
                     byte[] ticketinfo = new byte[4096];

@@ -141,7 +141,7 @@ public class MainFragment extends Fragment {
 
         /*默认参数设置*/
 
-        printDefMap.put("PInit",  "/sdcard /sdcard");
+        printDefMap.put("PInit",  "/sdcard/ /sdcard/");
         printDefMap.put( "PSetCutterMode",  "0");
         printDefMap.put( "PGetCutterMode",  "mode");
         printDefMap.put( "PSetFont",  "0 17 0");
@@ -168,7 +168,7 @@ public class MainFragment extends Fragment {
         printDefMap.put( "PUnsetUserChar",  "32 32");
         printDefMap.put( "PPrintUserChar",  "32 32"); //new add
         printDefMap.put( "PPrintUserBitmap",  "100 100 bitmapdata");  //param modified
-        printDefMap.put( "PPrintDiskImage",  "100 100 /sdcard/TestImage/printerDiskImage.bmp");
+        printDefMap.put( "PPrintDiskImage",  "100 100 /sdcard/config/TestImage/printerDiskImage.bmp");
         printDefMap.put( "PPrintBlackMark", "101010100010 12");
         printDefMap.put( "PGetTopMargin",  "str");
         printDefMap.put( "PPrintIsComplete",  "3");

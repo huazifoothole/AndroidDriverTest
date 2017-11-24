@@ -7,7 +7,7 @@
 
 
 /**********************************************************************************************************************
-* Í¨ÓÃºê¶¨Òå¶¨Òå
+* Í¨ï¿½Ãºê¶¨ï¿½å¶¨ï¿½ï¿½
 **********************************************************************************************************************/
 #if WIN32
 #define 	__WINAPI WINAPI
@@ -26,7 +26,7 @@
 #endif
 
 /**********************************************************************************************************************
-* HscannerÍâ²¿½Ó¿Úº¯Êý¶¨Òå
+* Hscannerï¿½â²¿ï¿½Ó¿Úºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 **********************************************************************************************************************/
 #ifdef	__cplusplus
 extern "C" {
@@ -35,198 +35,198 @@ extern "C" {
 typedef void(*SCANNERCALLBACK)(int eventId, void* data);
 
 /**
- * 1 ³õÊ¼»¯É¨ÃèÇ¹
+ * 1 ï¿½ï¿½Ê¼ï¿½ï¿½É¨ï¿½ï¿½Ç¹
  */
 int __WINAPI BCRInit(SCANNERCALLBACK scannerCallBack(int,void*), const char*
 input_dir, const char* output_dir);
 
 /**
- * 2 ¹Ø±ÕÉ¨ÃèÇ¹
+ * 2 ï¿½Ø±ï¿½É¨ï¿½ï¿½Ç¹
  */
 void __WINAPI BCRClose();
 
 /**
- * 3 »ñÈ¡×î½üÒ»´ÎµÄ´íÎóÂë
+ * 3 ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ò»ï¿½ÎµÄ´ï¿½ï¿½ï¿½ï¿½ï¿½
  */
 int __WINAPI BCRGetLastErrorCode();
 
 /**
- * 4 É¨ÃèÇ¹ÄÜÁ¦²éÑ¯
+ * 4 É¨ï¿½ï¿½Ç¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¯
  */
 int __WINAPI BCRQueryCapability();
 
 /**
- * 5 »ñÈ¡×î½üÒ»´ÎµÄ´íÎóÃèÊö£¨ÐÅÏ¢³¤¶ÈÔÚ 100 ×Ö½ÚÒÔÄÚ£¬°üº¬½áÊø·û£©¡£
+ * 5 ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ò»ï¿½ÎµÄ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 100 ï¿½Ö½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  */
 void __WINAPI BCRGetLastErrorStr(char *const errStr, int const errStrBufLen);
 
 /**
- *6  ´ò¿ªÃé×¼µÆ
+ *6  ï¿½ï¿½ï¿½ï¿½×¼ï¿½ï¿½
  */
 bool __WINAPI BCRAimOn();
 
 /**
- *7 ¹Ø±ÕÃé×¼µÆ
+ *7 ï¿½Ø±ï¿½ï¿½ï¿½×¼ï¿½ï¿½
  */
 bool __WINAPI BCRAimOff();
 
 /**
- * 8 ÆôÓÃÉ¨ÃèÇ¹Éè±¸
+ * 8 ï¿½ï¿½ï¿½ï¿½É¨ï¿½ï¿½Ç¹ï¿½è±¸
  */
 bool __WINAPI BCREnable();
 
 /**
- * 9 ½ûÓÃÉ¨ÃèÇ¹Éè±¸
+ * 9 ï¿½ï¿½ï¿½ï¿½É¨ï¿½ï¿½Ç¹ï¿½è±¸
  */
 bool __WINAPI BCRDisable();
 
 /**
- * 10 ÆôÓÃÄ³ÖÖÌõÂëÀàÐÍµÄÖ§³Ö£¬ÓÉÓÚÄ¬ÈÏÖ»´ò¿ª PDF417¡¢ Data Matrix ºÍ Interleaved 2 of 5 ÀàÐÍµÄÌõÂë£¬
-µ±ÐèÒªÊ¶±ðÆäËüÀàÐÍÌõÂëÊ±£¬¿ÉÍ¨¹ý´Ë½Ó¿Ú´ò¿ªÆäËüÌõÂëµÄÊ¶±ðÖ§³Ö¡£
+ * 10 ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½Ö§ï¿½Ö£ï¿½ï¿½ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½Ö»ï¿½ï¿½ PDF417ï¿½ï¿½ Data Matrix ï¿½ï¿½ Interleaved 2 of 5 ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ï¿½ë£¬
+ï¿½ï¿½ï¿½ï¿½ÒªÊ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½ï¿½Ë½Ó¿Ú´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½Ö§ï¿½Ö¡ï¿½
  */
 bool __WINAPI BCREnableCode(unsigned int const codeType);
 
 /**
- * 11 ¹Ø±ÕÄ³ÖÖÌõÂëÀàÐÍµÄÖ§³Ö¡£
+ * 11 ï¿½Ø±ï¿½Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½Ö§ï¿½Ö¡ï¿½
  */
 bool __WINAPI BCRDisableCode(unsigned int const codeType);
 
 /**
- * 12 ½øÈëÐÝÃßÄ£Ê½£¬½øÈëÐÝÃßºóÈôÓÐÌõÂë½øÈëÉ¨ÃèÇøÓò»òÓÃ»§°´ÏÂÉ¨Ãè¿ª¹Ø£¬¿ÉÒÔÀë¿ªÐÝÃßÄ£Ê½£¬»òÕß
-Í¨¹ý Wakeup ½Ó¿ÚÀë¿ªÐÝÃßÄ£Ê½¡£
+ * 12 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ßºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½É¨ï¿½è¿ªï¿½Ø£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë¿ªï¿½ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+Í¨ï¿½ï¿½ Wakeup ï¿½Ó¿ï¿½ï¿½ë¿ªï¿½ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½
  */
 bool __WINAPI BCRSleep(unsigned int const time);
 
 /**
- * 13 »½ÐÑÉ¨ÃèÇ¹
+ * 13 ï¿½ï¿½ï¿½ï¿½É¨ï¿½ï¿½Ç¹
  */
 bool __WINAPI BCRWakeup();
 
 /**
- * 14 ÖØÖÃÍ¨Ñ¶
+ * 14 ï¿½ï¿½ï¿½ï¿½Í¨Ñ¶
  */
 bool __WINAPI BCRResetComm();
 
 /**
- * 15 ¿ªÊ¼É¨ÃèÊ¶±ð
+ * 15 ï¿½ï¿½Ê¼É¨ï¿½ï¿½Ê¶ï¿½ï¿½
  */
 bool __WINAPI BCRStartScan();
 
 /**
- * 16 Í£Ö¹É¨ÃèÊ¶±ð
+ * 16 Í£Ö¹É¨ï¿½ï¿½Ê¶ï¿½ï¿½
  */
 bool __WINAPI BCRStopScan();
 
 /**
- * 17 ÊÇ·ñÉ¨ÃèÍê³É
+ * 17 ï¿½Ç·ï¿½É¨ï¿½ï¿½ï¿½ï¿½ï¿½
  */
 bool __WINAPI BCRScanIsComplete();
 
 /**
- * 18 É¨ÃèÇ¹×´Ì¬¼ì²â
+ * 18 É¨ï¿½ï¿½Ç¹×´Ì¬ï¿½ï¿½ï¿½
  */
 bool __WINAPI BCRIsReady();
 
 /**
- * 19 ÉèÖÃÉ¨ÃèÇ¹Ä£Ê½
+ * 19 ï¿½ï¿½ï¿½ï¿½É¨ï¿½ï¿½Ç¹Ä£Ê½
  */
 bool __WINAPI BCRSetScanMode(unsigned int const mode);
 
 /**
- * 20 »ñÈ¡É¨ÃèÇ¹Ä£Ê½
+ * 20 ï¿½ï¿½È¡É¨ï¿½ï¿½Ç¹Ä£Ê½
  */
 bool __WINAPI BCRGetScanMode(unsigned int *const mode);
 
 /**
- * 21 »ñÈ¡É¨ÃèÇ¹°â»ú×´Ì¬£¬Ê¹ÓÃÊÖ¶¯Ä£Ê½µÄÊ±ºòÓÐÐ§¡£
+ * 21 ï¿½ï¿½È¡É¨ï¿½ï¿½Ç¹ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½Ö¶ï¿½Ä£Ê½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½
  */
 void __WINAPI BCRGetTriggerStatus(int *const status);
 
 /**
- * 22 »ñÈ¡É¨ÃèÍ¼ÏñµÄ·Ö±æÂÊ
+ * 22 ï¿½ï¿½È¡É¨ï¿½ï¿½Í¼ï¿½ï¿½Ä·Ö±ï¿½ï¿½ï¿½
  */
 void __WINAPI BCRGetScanDpi(int *const widthDpi, int *const heightDpi);
 
 /**
- * 23 »ñµÃÔ­Ê¼Í¼Ïñ´óÐ¡£¬Èç¹ûÃ»ÓÐÍ¼Ïñ£¬ÔòÁ½Ïî¾ùÎª0
- * ´«³ö£º
- * width : Í¼ÏñÊµ¼Ê¿í¶È,ÏñËØ´óÐ¡
- * height: Í¼ÏñÊµ¼Ê¸ß¶È£¬ÏñËØ´óÐ¡
- * bufsize: BCRGetImage ½Ó¿ÚËùÐè·ÖÅä¿Õ¼äµÄ´óÐ¡
+ * 23 ï¿½ï¿½ï¿½Ô­Ê¼Í¼ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª0
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * width : Í¼ï¿½ï¿½Êµï¿½Ê¿ï¿½ï¿½,ï¿½ï¿½ï¿½Ø´ï¿½Ð¡
+ * height: Í¼ï¿½ï¿½Êµï¿½Ê¸ß¶È£ï¿½ï¿½ï¿½ï¿½Ø´ï¿½Ð¡
+ * bufsize: BCRGetImage ï¿½Ó¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½Ä´ï¿½Ð¡
  */
 bool __WINAPI BCRGetImageSize(int* const width,int* const height, int* const bufsize);
 
 /**
- * 24 »ñµÃÔ­Ê¼Í¼Ïñ,ÆäÍ¼ÏñÓ¦¸ÃÊÇ¾­¹ý¿ÉÎÛµã´¦ÀíºÍ·½Î»Ð£ÕýºóµÄµ¥É«Í¼Ïñ
- * ´«³ö£º
- * image :Í¼ÏñÊý¾Ý
- * bufferLen: Image»º³åÇø´óÐ¡
+ * 24 ï¿½ï¿½ï¿½Ô­Ê¼Í¼ï¿½ï¿½,ï¿½ï¿½Í¼ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ûµã´¦ï¿½ï¿½Í·ï¿½Î»Ð£ï¿½ï¿½ï¿½ï¿½Äµï¿½É«Í¼ï¿½ï¿½
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * image :Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * bufferLen: Imageï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡
  */
 int __WINAPI BCRGetImage(char* const image,int const bufferLen);
 
 /**
- * 25 »ñÈ¡É¨ÃèÊý¾ÝµÄ³¤¶È£¬¹©Ó¦ÓÃ·ÖÅäÊý¾ÝÇø´óÐ¡¡£
- * ´«³ö£º
- * length: ÎªGetTicketInfo ½Ó¿Úµ÷ÓÃÊ±ticketInfo²ÎÊýËùÐèµÄ¿Õ¼ä´óÐ¡
+ * 25 ï¿½ï¿½È¡É¨ï¿½ï¿½ï¿½ï¿½ï¿½ÝµÄ³ï¿½ï¿½È£ï¿½ï¿½ï¿½Ó¦ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * length: ÎªGetTicketInfo ï¿½Ó¿Úµï¿½ï¿½ï¿½Ê±ticketInfoï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Õ¼ï¿½ï¿½Ð¡
  */
 bool __WINAPI BCRGetDataLength(unsigned int *const length);
 
 /**
- * 26 ¶ÁÈ¡É¨ÃèµÄÄÚÈÝ
- * ´«³ö£º
- * ticketInfo: ·µ»Ø½âÎö³öµÄÌõÂëÐÅÏ¢£¬¾ßÌå¸ñÊ½²Î¿¼µÚ 1 ÕÂÖÐ¹«¹²Êý¾Ý·µ»Ø½á¹¹¶¨Òå
- * ´«Èë£º
- * bufferLen: Ó¦ÓÃ³ÌÐò·ÖÅäµÄÊý¾ÝÇøµÄ´óÐ¡
- * ·µ»Ø£º
- * 0 :¶ÁÈ¡Ê§°Ü
- * ÕýÕûÊý£º¶ÁÈ¡µ½Í¼ÏñµÄÊ±¼ä´óÐ¡
+ * 26 ï¿½ï¿½È¡É¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * ticketInfo: ï¿½ï¿½ï¿½Ø½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½Î¿ï¿½ï¿½ï¿½ 1 ï¿½ï¿½ï¿½Ð¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý·ï¿½ï¿½Ø½á¹¹ï¿½ï¿½ï¿½ï¿½
+ * ï¿½ï¿½ï¿½ë£º
+ * bufferLen: Ó¦ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä´ï¿½Ð¡
+ * ï¿½ï¿½ï¿½Ø£ï¿½
+ * 0 :ï¿½ï¿½È¡Ê§ï¿½ï¿½
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½Í¼ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ð¡
  */
 int __WINAPI BCRGetTicketInfo(unsigned char *const ticketInfo, unsigned int const bufferLen);
 
 /**
- * 27 ²¥·ÅÉ¨ÃèÇ¹ÌáÊ¾Òô
+ * 27 ï¿½ï¿½ï¿½ï¿½É¨ï¿½ï¿½Ç¹ï¿½ï¿½Ê¾ï¿½ï¿½
  */
 bool __WINAPI BCRBeep(int const tone);
 
 /**
- * 28 ÔÊÐíÉ¨ÃèÇ¹²¥·ÅÌáÊ¾Òô
+ * 28 ï¿½ï¿½ï¿½ï¿½É¨ï¿½ï¿½Ç¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½
  */
 void __WINAPI BCREnableBeep();
 
 /**
- * 29 ½ûÖ¹É¨ÃèÇ¹²¥·ÅÌáÊ¾Òô
+ * 29 ï¿½ï¿½Ö¹É¨ï¿½ï¿½Ç¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½
  */
 void __WINAPI BCRDisableBeep();
 
 /**
- * 30 Çå¿ÕÉ¨ÃèÇ¹»º´æÖÐµÄÊý¾Ý
+ * 30 ï¿½ï¿½ï¿½É¨ï¿½ï¿½Ç¹ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½
  */
 void __WINAPI BCRClearBuffer();
 
 /**
- * 31 È¡µÃÉ¨ÃèÇ¹µÄÓ²¼þÐÅÏ¢
- *  ´«³ö£ºhwinfo
- *  ´«Èë£º±êÊ¶ hwInfo µÄ³¤¶È£¨ÔÚ4096×Ö½ÚÒÔÄÚ£©
+ * 31 È¡ï¿½ï¿½É¨ï¿½ï¿½Ç¹ï¿½ï¿½Ó²ï¿½ï¿½ï¿½ï¿½Ï¢
+ *  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½hwinfo
+ *  ï¿½ï¿½ï¿½ë£ºï¿½ï¿½Ê¶ hwInfo ï¿½Ä³ï¿½ï¿½È£ï¿½ï¿½ï¿½4096ï¿½Ö½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½
  */
-bool __WINAPI BCRGetHWInfomation(char* const hwInfo , int const length);
+bool __WINAPI BCRGetHWInformation(char* const hwInfo , int const length);
 
 /**
- * 32 »ñÈ¡Èí¼þ°æ±¾
- * ´«³ö£º
- * swversion:°æ±¾ºÅ
+ * 32 ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½æ±¾
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * swversion:ï¿½æ±¾ï¿½ï¿½
  */
 void __WINAPI BCRGetSWVersion(char* const swversion , unsigned int const length);
 
 /**
- * 33 ´ò¿ª²¢ÉèÖÃÓÃ»§·´À¡µÆµÄÑÕÉ«
- * ´«Èë£º
+ * 33 ï¿½ò¿ª²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½É«
+ * ï¿½ï¿½ï¿½ë£º
  *  1 Green LED
     2 Red LED
  */
 bool __WINAPI BCRUserLEDOn(unsigned int *const mode);
 
 /**
- * 34 ¹Ø±ÕÓÃ»§·´À¡µÆ
+ * 34 ï¿½Ø±ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  */
 void __WINAPI BCRUserLEDOff();
 

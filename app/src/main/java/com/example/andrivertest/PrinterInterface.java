@@ -1,7 +1,5 @@
 package com.example.andrivertest;
 
-import java.util.List;
-
 /**
  * Created by chandler on 2017/5/11.
  */
@@ -12,8 +10,7 @@ public class PrinterInterface {
         System.loadLibrary("ConfigFileINI");
         System.loadLibrary("flog");
         System.loadLibrary("bitmap");
-        System.loadLibrary("scanprn");
-        System.loadLibrary("ScanPrnWrap");
+        System.loadLibrary("HWILatechPrinter");
         System.loadLibrary("native-printer");
     }
 
@@ -56,7 +53,7 @@ public class PrinterInterface {
 
     public  native int PrintPDF417(int mode_width, int mode_height, int data_rows, int data_columns, int err_level, String pdfStr, int length, int mode);
 
-    public native boolean PSetUserChar(int c1,int c2,int m, char[] data,int length);
+    public native boolean PSetUserChar(int c1,int c2,int m);
 
     public native boolean PUnsetUserChar(int c1,int c2);
 
@@ -72,7 +69,8 @@ public class PrinterInterface {
 
     public native long PGetPrintLength();
 
-    public native boolean PLoadLogoImage(int imgCount, List<byte[]> imgList);
+//    public native boolean PLoadLogoImage(int imgCount, List<byte[]> imgList);
+public native boolean PLoadLogoImage(int imgCount);
 
     public native boolean PLoadDiskLogo(int imgCount, String[] imgFileList);
 
@@ -114,6 +112,8 @@ public class PrinterInterface {
     public native String PrintCutPaperSpeed(int cutmode);
 
     public native String PrintBarCode(int cutmode ,int codeType);
+
+    public native boolean PPrintUserBitmap(int xpos, int ypos);
 
 
 

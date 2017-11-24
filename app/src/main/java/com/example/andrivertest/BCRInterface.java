@@ -6,7 +6,7 @@ package com.example.andrivertest;
 
 public class BCRInterface {
     static {
-        System.loadLibrary("HWIILOTBCR");
+        System.loadLibrary("HWICgltBCR");
         System.loadLibrary("native-hscanner");
     }
 

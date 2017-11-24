@@ -23,22 +23,22 @@ extern "C"
 
 
 /**********************************************************************************************************************
-* Hscanner½Ó¿Ú´íÎó¶¨Òå
+* Hscannerï¿½Ó¿Ú´ï¿½ï¿½ï¿½ï¿½ï¿½
 **********************************************************************************************************************/
 #define	PRINTER_START_CODE			0x00
 #define	HSCANNER_NO_ERROR			0x00
-#define NO_HSCANNER  2001  //Can not find  ÕÒ²»µ½É¨ÃèÇ¹
-#define DATA_LINE_ERROR   2002 //Êý¾ÝÏß¹ÊÕÏ Data line error
-#define POWER_ERROR 2003    //µçÔ´Ïß¹ÊÕÏ
-#define HSCANNER_IS_BUSY 2004 //É¨ÃèÇ¹Ã¦
-#define TIME_OUT 2005 //³¬Ê±
-#define HSCANNER_DISABLED 2006//É¨ÃèÇ¹±»½ûÓÃ
-#define GET_HWVERSION_ERROR 2007//»ñÈ¡É¨ÃèÇ¹Ó²¼þÐÅÏ¢Ê§°Ü
-#define START_ERROR 2008//Æô¶¯É¨ÃèÇ¹Ê§°Ü
-#define TABPAR_NONE 2009//²ÎÊýÎÄ¼þ²»´æÔÚ
-#define GET_ORIGIN_IMAGE_ERROR 2010//»ñÈ¡Ô­Ê¼Í¼ÏñÊý¾ÝÊ§°Ü
-#define HSCANNER_READ_ERROR 2011//É¨ÃèÇ¹Êý¾Ý¶ÁÈ¡´íÎó
-#define OTHER_ERROR 2500//ÆäËû´íÎó
+#define NO_HSCANNER  2001  //Can not find  ï¿½Ò²ï¿½ï¿½ï¿½É¨ï¿½ï¿½Ç¹
+#define DATA_LINE_ERROR   2002 //ï¿½ï¿½ï¿½ï¿½ï¿½ß¹ï¿½ï¿½ï¿½ Data line error
+#define POWER_ERROR 2003    //ï¿½ï¿½Ô´ï¿½ß¹ï¿½ï¿½ï¿½
+#define HSCANNER_IS_BUSY 2004 //É¨ï¿½ï¿½Ç¹Ã¦
+#define TIME_OUT 2005 //ï¿½ï¿½Ê±
+#define HSCANNER_DISABLED 2006//É¨ï¿½ï¿½Ç¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+#define GET_HWVERSION_ERROR 2007//ï¿½ï¿½È¡É¨ï¿½ï¿½Ç¹Ó²ï¿½ï¿½ï¿½ï¿½Ï¢Ê§ï¿½ï¿½
+#define START_ERROR 2008//ï¿½ï¿½ï¿½ï¿½É¨ï¿½ï¿½Ç¹Ê§ï¿½ï¿½
+#define TABPAR_NONE 2009//ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+#define GET_ORIGIN_IMAGE_ERROR 2010//ï¿½ï¿½È¡Ô­Ê¼Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
+#define HSCANNER_READ_ERROR 2011//É¨ï¿½ï¿½Ç¹ï¿½ï¿½ï¿½Ý¶ï¿½È¡ï¿½ï¿½ï¿½ï¿½
+#define OTHER_ERROR 2500//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 
 
@@ -130,8 +130,8 @@ JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_BCRInterface_BCRGetHWIn
 
     bool flag = false;
     char info[1024] = {0x00};
-    //ÐÂ´óÂ½ÌõÂëÇ¹´Ë½Ó¿Úº¯ÊýÃû³Æ´íÎó ÎªBCRGetHWInfomation ÕýÈ·ÎªBCRGetHWInformation
-    flag = BCRGetHWInfomation(info, sizeof(info));
+    //ï¿½Â´ï¿½Â½ï¿½ï¿½ï¿½ï¿½Ç¹ï¿½Ë½Ó¿Úºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ´ï¿½ï¿½ï¿½ ÎªBCRGetHWInfomation ï¿½ï¿½È·ÎªBCRGetHWInformation
+    flag = BCRGetHWInformation(info, sizeof(info));
     env->SetByteArrayRegion(hwInfo,0,strlen(info),(jbyte*)info);
 
     return flag;
@@ -278,15 +278,23 @@ JNIEXPORT jstring JNICALL Java_com_example_andrivertest_BCRInterface_BCRGetSWVer
 
 JNIEXPORT jint JNICALL Java_com_example_andrivertest_BCRInterface_BCRGetImage
         (JNIEnv *env, jclass, jbyteArray imageInfo, jobject bufferLength) {
-    char image[4096] = {0x00};
-    int size = 0;
-    int length =  BCRGetImage(image, size);
+//    char *image  =  new char[1024 * 20]();
+//    int const size=0 ;
+
+    int width = 0, height = 0, buffsize = 0;
+    BCRGetImageSize(&width, &height, &buffsize);
+
+    char image[buffsize];
+    memset(image, 0, sizeof(image));
+    int length =  BCRGetImage(image, buffsize);
+    LOGI("getImage length=%d,size=%d",length,buffsize);
 
     env->SetByteArrayRegion(imageInfo, 0, length, (jbyte*) image);
 
     jclass class_dpi = env->FindClass("java/lang/Integer");
     jfieldID id = env->GetFieldID(class_dpi, "value", "I");
-    env->SetIntField(bufferLength, id, size);
+    env->SetIntField(bufferLength, id, buffsize);
+
 
     return  length;
 }
@@ -358,8 +366,6 @@ JNIEXPORT jboolean JNICALL Java_com_example_andrivertest_BCRInterface_BCRGetData
     env->SetIntField(length, id, l);
     return flag;
 }
-
-
 
 
 #ifdef __cplusplus
